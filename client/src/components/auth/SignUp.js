@@ -3,11 +3,15 @@ import image1 from '../styling/signUpImage.svg'
 import imageBG from '../styling/signUpBG.svg'
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import axios from 'axios'
+
 
 export default function SignUp() {
     const [studentNumber, setStudentNumber] = useState('')
     const [uwEmail, setUWEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
     const [emailError, setEmailError] = useState(false)
     const [studentNumberError, setStudentNumberError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
@@ -43,6 +47,29 @@ export default function SignUp() {
         } else {
             setPasswordError(true)
             setPassword(value)
+        }
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (studentNumberError || emailError || passwordError) {
+            alert("Please ensure all fields are correctly filled out.");
+            return;
+        }
+
+        try {
+            const response = await axios.post('http://localhost:3001/api/signup', {
+                studentNumber,
+                email: uwEmail,
+                password,
+                firstName,
+                lastName,
+            });
+            console.log('User signed up:', response.data)
+            // Handle successful sign-up (e.g., redirect or display message)
+        } catch (error) {
+            console.error('Sign up error:', error.response?.data?.error || 'An error occurred');
         }
     }
 
@@ -105,6 +132,8 @@ export default function SignUp() {
                                 id="firstName"
                                 type="text"
                                 placeholder="Enter First Name"
+                                value={firstName}
+                                onChange={e => setFirstName(e.target.value)}
                             />
                         </div>
                         <div>
@@ -114,6 +143,8 @@ export default function SignUp() {
                                 id="lastName"
                                 type="text"
                                 placeholder="Enter Last Name"
+                                value={lastName}
+                                onChange={e => setLastName(e.target.value)}
                             />
                         </div>
                     </div>
