@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+# Ignore cache directories
+/.cache
+client/node_modules
+
 # testing
 /coverage
 
