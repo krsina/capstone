@@ -58,14 +58,18 @@ export default function SignUp() {
             return;
         }
 
+        const payload = {
+            studentNumber,
+            email: uwEmail,
+            password,
+            firstName,
+            lastName,
+        };
+
+        console.log('Payload:', payload);  // Log payload to inspect
+
         try {
-            const response = await axios.post('http://localhost:3001/api/signup', {
-                studentNumber,
-                email: uwEmail,
-                password,
-                firstName,
-                lastName,
-            });
+            const response = await axios.post('http://localhost:3002/signup', payload);
             console.log('User signed up:', response.data)
             // Handle successful sign-up (e.g., redirect or display message)
         } catch (error) {
@@ -93,13 +97,14 @@ export default function SignUp() {
                     className="w-3/5 h-3/5 relative"
                 />
             </div>
-
             {/* Sign Up Right Side*/}
             <div className="w-1/2 flex flex-col justify-center px-32  bg-white ">
                 <h1 className="text-6xl mb-10 ">
                     Create An Account
                 </h1>
-                <form className="w-full max-w-sm">
+                <form className="w-full max-w-sm"
+                    onSubmit={handleSubmit}
+                >
                     <div className="mb-4">
                         <h1 className="text-secondary font-light mb-1">Student Number</h1>
                         <input
@@ -163,9 +168,7 @@ export default function SignUp() {
                     </div>
                     <button
                         className="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
-                        type="button"
-                    >
-                        Sign Up
+                        type="submit"> Sign Up
                     </button>
                 </form>
                 <p className="pt-20 text-xl font-light">Already have an account? <NavLink
