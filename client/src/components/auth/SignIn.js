@@ -1,10 +1,10 @@
 import React from 'react'
 import image1 from '../styling/signInImage.svg'
 import imageBG from '../styling/signInBG.svg'
+import { NavLink } from 'react-router-dom'
 
 
 export default function SignIn() {
-
     return (
         <div className="min h-screen flex">
             {/* Sign In Form Left Side */}
@@ -39,7 +39,12 @@ export default function SignIn() {
                         </button>
                     </div>
                 </form>
-                <p className="pt-20 text-xl font-light">Don't have an Account? <a href="#" className="text-primary hover:underline font-bold">Sign up</a></p>
+                <p className="pt-20 text-xl font-light">Don't have an Account? <NavLink
+                    className="text-primary hover:underline font-bold"
+                    to="/signup"
+                >
+                    Sign up
+                </NavLink></p>
             </div>
 
             {/* Sign In Illustration Right Side */}
