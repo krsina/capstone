@@ -79,7 +79,7 @@ export default function SignUp() {
                             className={`shadow appearance-none border rounded-lg w-full py-3 px-2 leading-tight focus:outline-primary focus:shadow-outline ${studentNumberError ? 'border-red-500' : ''}`}
                             id="studentNumber"
                             type="number"
-                            placeholder="Eneter 6 Digit Student Number"
+                            placeholder="Enter 6-Digit Student Number"
                             value={studentNumber}
                             onChange={handleInputChange}
                         />
