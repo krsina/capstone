@@ -5,6 +5,9 @@ import ResourceIcon from '../styling/Icons/briefcase.svg'
 import ClubDashboardIcon from '../styling/Icons/id-card.svg'
 import LogoutIcon from '../styling/Icons/logout.svg'
 
+import { NavLink } from 'react-router-dom'
+
+
 function SideNavbar() {
     return (
         <aside className="fixed top-0 left-0 h-full w-80 bg-primary text-white flex flex-col font-light">
@@ -30,13 +33,19 @@ function SideNavbar() {
                 </ul>
             </div>
             <div className="p-6">
-                <button className="flex items-center gap-4">
+                <NavLink
+                    className="flex items-center gap-4"
+                    to="/signup"
+                >
                     <img src={LogoutIcon} alt="Logout" className="h-6 w-6" />
                     <span className="text-2xl">Logout</span>
-                </button>
-                <button className="flex items-center gap-4">
+                </NavLink>
+                <NavLink
+                    className="flex items-center gap-4"
+                    to="/signin"
+                >
                     <span className="text-2xl">Log In (Test Button)</span>
-                </button>
+                </NavLink>
             </div>
         </aside >
     )

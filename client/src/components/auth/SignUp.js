@@ -2,7 +2,7 @@ import React from 'react'
 import image1 from '../styling/signUpImage.svg'
 import imageBG from '../styling/signUpBG.svg'
 import { useState } from 'react'
-
+import { NavLink } from 'react-router-dom'
 
 export default function SignUp() {
     const [studentNumber, setStudentNumber] = useState('')
@@ -128,7 +128,7 @@ export default function SignUp() {
                             onChange={handlePassword}
                             autoComplete="new-password"
                         />
-                        {passwordError && <p className="text-red-500 text-xs italic">Password must be at least 8 characters long and include at least one letter and one number.</p>}
+                        {passwordError && <p className="text-red-500 text-xs italic">Password must be at least 8 characters long and include at least one special character and one number.</p>}
                     </div>
                     <button
                         className="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
@@ -137,7 +137,11 @@ export default function SignUp() {
                         Sign Up
                     </button>
                 </form>
-                <p className="pt-20 text-xl font-light">Already have an account? <a href="#" className="text-primary font-bold hover:underline">Sign In</a></p>
+                <p className="pt-20 text-xl font-light">Already have an account? <NavLink
+                    to="/signin"
+                    className="text-primary font-bold hover:underline">
+                    Sign In
+                </NavLink></p>
             </div>
 
 
