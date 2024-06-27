@@ -79,7 +79,7 @@ export default function SignUp() {
                             className={`shadow appearance-none border rounded-lg w-full py-3 px-2 leading-tight focus:outline-primary focus:shadow-outline ${studentNumberError ? 'border-red-500' : ''}`}
                             id="studentNumber"
                             type="number"
-                            placeholder="Eneter 6 Digit Student Number"
+                            placeholder="Enter 6-Digit Student Number"
                             value={studentNumber}
                             onChange={handleInputChange}
                         />
@@ -137,7 +137,7 @@ export default function SignUp() {
                         Sign Up
                     </button>
                 </form>
-                <p className="pt-20 text-xl font-light">Already have an account? <a href="#" className="text-primary font-bold hover:underline">Sign In</a></p>
+                <p className="pt-10 text-xl font-light">Already have an account? <a href="#" className="text-primary font-bold hover:underline">Sign In</a></p>
             </div>
 
 
