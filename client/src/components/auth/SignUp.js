@@ -64,8 +64,6 @@ export default function SignUp() {
         );
     };
 
-
-
     return (
         <div className="min h-screen flex text-secondary">
             {/* Sign In Illustration Left Side */}

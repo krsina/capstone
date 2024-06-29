@@ -12,6 +12,7 @@ export default function SignIn() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = await signIn(email, password);
+        console.log(data);
         if (data.session) {
             // Successful sign-in, navigate to /events
             navigate('/events');
