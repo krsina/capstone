@@ -3,7 +3,7 @@ import image1 from '../styling/signUpImage.svg'
 import imageBG from '../styling/signUpBG.svg'
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import axios from 'axios'
+import { signUp } from '../../services/authServices'
 
 
 export default function SignUp() {
@@ -17,65 +17,53 @@ export default function SignUp() {
     const [passwordError, setPasswordError] = useState(false)
 
     const handleInputChange = (e) => {
-        const value = e.target.value
-        if (value.length <= 6) {
-            setStudentNumberError(false)
-            setStudentNumber(value)
-        }
-        if (value.length < 6) {
-            setStudentNumberError(true)
-        }
-    }
+        const { id, value } = e.target;
 
-    const handleEmail = (e) => {
-        const value = e.target.value
-        if (value.includes('@uw.edu')) {
-            setUWEmail(value)
-            setEmailError(false)
-        } else {
-            setEmailError(true)
-            setUWEmail(value)
+        if (id === 'studentNumber') {
+            setStudentNumber(value);
+            setStudentNumberError(value.length > 6);
+        } else if (id === 'uwEmail') {
+            setUWEmail(value);
+            setEmailError(!value.includes('@uw.edu'));
+        } else if (id === 'password') {
+            setPassword(value);
+            const passwordCriteria = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!?])[A-Za-z\d@#$!?]{8,}$/;
+            setPasswordError(!passwordCriteria.test(value));
+        } else if (id === 'firstName') {
+            setFirstName(value);
+        } else if (id === 'lastName') {
+            setLastName(value);
         }
-    }
-
-    const handlePassword = (e) => {
-        const value = e.target.value
-        const passwordCriteria = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$!?])[A-Za-z\d@#$!?]{8,}$/
-        if (passwordCriteria.test(value)) {
-            setPasswordError(false)
-            setPassword(value)
-        } else {
-            setPasswordError(true)
-            setPassword(value)
-        }
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (studentNumberError || emailError || passwordError) {
-            alert("Please ensure all fields are correctly filled out.");
-            return;
-        }
-
-        const payload = {
-            studentNumber,
-            email: uwEmail,
-            password,
-            firstName,
-            lastName,
-        };
-
-        console.log('Payload:', payload);  // Log payload to inspect
-
-        try {
-            const response = await axios.post('http://localhost:3002/signup', payload);
-            console.log('User signed up:', response.data)
-            // Handle successful sign-up (e.g., redirect or display message)
-        } catch (error) {
-            console.error('Sign up error:', error.response?.data?.error || 'An error occurred');
+        // checking if form is valid
+        if (validateForm()) {
+            try {
+                const data = await signUp(studentNumber, uwEmail, password, firstName, lastName);
+                console.log('Signup successful:', data);
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
+
+    // Checking for valid form input
+    const validateForm = () => {
+        return (
+            !studentNumberError &&
+            !emailError &&
+            !passwordError &&
+            studentNumber.length <= 6 &&
+            uwEmail.includes('@uw.edu') &&
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!?])[A-Za-z\d@#$!?]{8,}$/.test(password) &&
+            firstName.trim() !== '' &&
+            lastName.trim() !== ''
+        );
+    };
+
 
 
     return (
@@ -125,7 +113,7 @@ export default function SignUp() {
                             type="email"
                             placeholder="Enter UW Email"
                             value={uwEmail}
-                            onChange={handleEmail}
+                            onChange={handleInputChange}
                         />
                         {emailError && <p className="text-red-500 text-xs italic">Please enter a valid UW email address.</p>}
                     </div>
@@ -149,6 +137,7 @@ export default function SignUp() {
                                 type="text"
                                 placeholder="Enter Last Name"
                                 value={lastName}
+                                autoComplete='username'
                                 onChange={e => setLastName(e.target.value)}
                             />
                         </div>
@@ -161,18 +150,21 @@ export default function SignUp() {
                             type="password"
                             placeholder="Enter Password"
                             value={password}
-                            onChange={handlePassword}
+                            onChange={handleInputChange}
                             autoComplete="new-password"
                         />
-                        {passwordError && <p className="text-red-500 text-xs italic">Password must be at least 8 characters long and include at least one special character and one number.</p>}
+                        {passwordError && <p className="text-red-500 text-xs italic">Password must be at least 8 characters long and includes 1 capital letter, number, and special character.</p>}
                     </div>
                     <button
                         className="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
-                        type="submit"> Sign Up
+                        type="submit"
+                        disabled={!validateForm()}
+                    > Sign Up
+
                     </button>
                 </form>
                 <p className="pt-20 text-xl font-light">Already have an account? <NavLink
-                    to="/signin"
+                    to="/"
                     className="text-primary font-bold hover:underline">
                     Sign In
                 </NavLink></p>
