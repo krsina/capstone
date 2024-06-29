@@ -45,7 +45,15 @@ export default function SignIn() {
                 >
                     Sign up
                 </NavLink></p>
+                {/* Testing purpose button to get into application*/}
+                <NavLink to="/events">
+                    <button className="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-5">
+                        Go to Application
+                    </button>
+                </NavLink>
             </div>
+
+
 
             {/* Sign In Illustration Right Side */}
             <div className="w-1/2 flex items-center justify-center flex-col text-white relative overflow-hidden">

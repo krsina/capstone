@@ -1,9 +1,10 @@
 import React from 'react'
+import Clubdashbaord from '../components/ClubDashboard/ClubDashboard'
 
 function ClubDashboardPage() {
     return (
-        <div className="flex items-center justify-center ">
-            Hello from Club Dashboard Page
+        <div >
+            < Clubdashbaord />
         </div>
     )
 }

@@ -3,11 +3,15 @@ import image1 from '../styling/signUpImage.svg'
 import imageBG from '../styling/signUpBG.svg'
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import axios from 'axios'
+
 
 export default function SignUp() {
     const [studentNumber, setStudentNumber] = useState('')
     const [uwEmail, setUWEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
     const [emailError, setEmailError] = useState(false)
     const [studentNumberError, setStudentNumberError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
@@ -46,6 +50,33 @@ export default function SignUp() {
         }
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (studentNumberError || emailError || passwordError) {
+            alert("Please ensure all fields are correctly filled out.");
+            return;
+        }
+
+        const payload = {
+            studentNumber,
+            email: uwEmail,
+            password,
+            firstName,
+            lastName,
+        };
+
+        console.log('Payload:', payload);  // Log payload to inspect
+
+        try {
+            const response = await axios.post('http://localhost:3002/signup', payload);
+            console.log('User signed up:', response.data)
+            // Handle successful sign-up (e.g., redirect or display message)
+        } catch (error) {
+            console.error('Sign up error:', error.response?.data?.error || 'An error occurred');
+        }
+    }
+
 
     return (
         <div className="min h-screen flex text-secondary">
@@ -66,13 +97,14 @@ export default function SignUp() {
                     className="w-3/5 h-3/5 relative"
                 />
             </div>
-
             {/* Sign Up Right Side*/}
             <div className="w-1/2 flex flex-col justify-center px-32  bg-white ">
                 <h1 className="text-6xl mb-10 ">
                     Create An Account
                 </h1>
-                <form className="w-full max-w-sm">
+                <form className="w-full max-w-sm"
+                    onSubmit={handleSubmit}
+                >
                     <div className="mb-4">
                         <h1 className="text-secondary font-light mb-1">Student Number</h1>
                         <input
@@ -105,6 +137,8 @@ export default function SignUp() {
                                 id="firstName"
                                 type="text"
                                 placeholder="Enter First Name"
+                                value={firstName}
+                                onChange={e => setFirstName(e.target.value)}
                             />
                         </div>
                         <div>
@@ -114,6 +148,8 @@ export default function SignUp() {
                                 id="lastName"
                                 type="text"
                                 placeholder="Enter Last Name"
+                                value={lastName}
+                                onChange={e => setLastName(e.target.value)}
                             />
                         </div>
                     </div>
@@ -132,9 +168,7 @@ export default function SignUp() {
                     </div>
                     <button
                         className="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
-                        type="button"
-                    >
-                        Sign Up
+                        type="submit"> Sign Up
                     </button>
                 </form>
                 <p className="pt-20 text-xl font-light">Already have an account? <NavLink
