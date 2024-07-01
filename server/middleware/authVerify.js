@@ -4,18 +4,16 @@
 const supabase = require('../supabaseClient');
 
 const authVerify = async (req, res, next) => {
-    const { authorization } = req.headers;
-    if (!authorization) {
+    const token = req.cookies.token;
+    if (!token) {
         return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const token = authorization.split(' ')[1];
     const { data, error } = await supabase.auth.api.getUser(token);
 
     if (error || !data) {
-        return res.status(401).json({ error: 'Unauthorized' });
+        return res.status(401).json({ error: error.message });
     }
-
 
     req.user = data;
     next();

@@ -52,6 +52,12 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ error: error.message });
         }
 
+        res.cookie('token', data.access_token, {
+            httpOnly: true,
+            sameSite: 'none',
+            secure: true,
+        });
+
         return res.json(data);
     } catch (err) {
         console.error(err);
