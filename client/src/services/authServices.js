@@ -19,15 +19,13 @@ export const signUp = async (studentNumber, email, password, firstName, lastName
 
 export const signIn = async (email, password) => {
     try {
-        const response = await axios.post(`${API_URL}/signin`, { email, password });
-        if (response.data.session) {
-            localStorage.setItem('token', response.data.session.access_token);
-        }
+        const response = await axios.post(`${API_URL}/`, { email, password }, { withCredentials: true });
         return response.data;
     } catch (error) {
         return error.response ? error.response.data : { error: 'Signin failed' };
     }
 };
+
 
 
 
