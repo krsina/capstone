@@ -41,7 +41,7 @@ router.post('/signup', async (req, res) => {
 
     res.json(data);
 
-})
+});
 
 router.post('/', async (req, res) => {
     try {
@@ -65,6 +65,22 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.post('/signout', async (req, res) => {
+    try {
+        const { error } = await supabase.auth.signOut();
+
+        if (error) {
+            return res.status(400).json({ error: error.message });
+        }
+
+        res.clearCookie('token');
+
+        return res.json({ message: 'Sign out successful' });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
 
 module.exports = router;
