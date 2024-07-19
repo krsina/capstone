@@ -3,17 +3,26 @@ import image1 from '../styling/signInImage.svg';
 import imageBG from '../styling/signInBG.svg';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { signIn } from '../../services/authServices';
+import { useAuth } from '../../services/authContext';
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const { setIsAuthenticated, setUser } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Call signIn service
         const data = await signIn(email, password);
-        console.log(data);
+
+        // If sign-in is successful, set user authentication state and navigate to /events
         if (data.session) {
+            // Set user authentication state
+            setIsAuthenticated(true);
+            setUser(data.user);
+
             // Successful sign-in, navigate to /events
             navigate('/events');
         } else {
@@ -68,12 +77,6 @@ export default function SignIn() {
                         Sign up
                     </NavLink>
                 </p>
-                {/* Testing purpose button to get into application */}
-                <NavLink to="/events">
-                    <button className="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-5">
-                        Go to Application
-                    </button>
-                </NavLink>
             </div>
 
             {/* Sign In Illustration Right Side */}

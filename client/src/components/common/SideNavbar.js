@@ -4,11 +4,16 @@ import OrganizationIcon from '../styling/Icons/building.svg'
 import ResourceIcon from '../styling/Icons/briefcase.svg'
 import ClubDashboardIcon from '../styling/Icons/id-card.svg'
 import LogoutIcon from '../styling/Icons/logout.svg'
-
 import { NavLink } from 'react-router-dom'
-
+import { useAuth } from '../../services/authContext'
 
 function SideNavbar() {
+    const { logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+    }
+
     return (
         <div className="hidden md:block">
             <aside className="fixed top-0 left-0 h-full w-80 bg-primary text-white flex flex-col font-light  ">
@@ -44,16 +49,11 @@ function SideNavbar() {
                 <div className="p-6">
                     <NavLink
                         className="flex items-center gap-4"
-                        to="/signup"
+                        onClick={handleLogout}
+                        to="/"
                     >
                         <img src={LogoutIcon} alt="Logout" className="h-6 w-6" />
                         <span className="text-2xl">Logout</span>
-                    </NavLink>
-                    <NavLink
-                        className="flex items-center gap-4"
-                        to="/"
-                    >
-                        <span className="text-2xl">Log In (Test Button)</span>
                     </NavLink>
                 </div>
             </aside >

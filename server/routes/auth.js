@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const supabase = require('../supabaseClient');
 
+
 router.post('/signup', async (req, res) => {
     const { studentNumber, email, password, firstName, lastName } = req.body;
     const { data, error } = await supabase.auth.signUp({
@@ -14,7 +15,7 @@ router.post('/signup', async (req, res) => {
     // Insert user into users table
     const { user } = data;
     const { error: insertError } = await supabase
-        .from('users')
+        .from('profile')
         .insert([{
             id: user.id,
             email: user.email,
@@ -43,7 +44,7 @@ router.post('/signup', async (req, res) => {
 
 })
 
-router.post('/', async (req, res) => {
+router.post('/signin', async (req, res) => {
     try {
         const { email, password } = req.body;
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
