@@ -9,6 +9,8 @@ import Events from './pages/EventPage';
 import OrganizationPage from './pages/OrganizationPage';
 import UserNavigation from './components/common/ProfileNavbar';
 import PrivateRoute from './services/privateRoute';
+import ClubRegistration from './components/Resources/Forms/ClubRegistration';
+import ClubRenewal from './components/Resources/Forms/ClubRenewal';
 import { AuthProvider, useAuth } from './services/authContext';
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
         <Route path="/events" element={<PrivateRoute element={Events} />} />
         <Route path="/clubdashboard" element={<PrivateRoute element={ClubDashboard} />} />
         <Route path="/resources" element={<PrivateRoute element={ResourcesPage} />} />
+        <Route path="/resources/clubregistration" element={<PrivateRoute element={ClubRegistration} />} />
+        <Route path="/resources/clubrenewal" element={<PrivateRoute element={ClubRenewal} />} />
         <Route path="/organization" element={<PrivateRoute element={OrganizationPage} />} />
       </Routes>
     </div>

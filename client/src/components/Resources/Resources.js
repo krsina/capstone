@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 function Resources() {
     return (
@@ -14,7 +15,15 @@ function Resources() {
                     <h1 className="text-3xl font-encode-sans font-bold text-primary">Forms</h1>
                     <p className="font-open-sans text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam accumsan eros diam, vel elementum dui dapibus posuere.
                         Ut porttitor pharetra ipsum, imperdiet imperdiet nisl vehicula in. Sed a nibh nec mi rhoncus hendrerit. Proin ipsum mi, </p>
-                    <h1 className="text-2xl font-encode-sans font-bold text-tertiary">Club Registration</h1>
+                    <NavLink
+                        className="text-2xl font-encode-sans font-bold text-tertiary"
+                        to="/resources/clubregistration"
+                    >Club Registration</NavLink>
+                    <p className="font-open-sans text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam accumsan eros diam, vel elementum dui dapibus posuere.
+                        Ut porttitor pharetra ipsum, imperdiet imperdiet nisl vehicula in. Sed a nibh nec mi rhoncus hendrerit. Proin ipsum mi, </p>
+                    <NavLink className="text-2xl font-encode-sans font-bold text-tertiary"
+                        to="/resources/clubrenewal"
+                    >Club Renewal</NavLink>
                     <p className="font-open-sans text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam accumsan eros diam, vel elementum dui dapibus posuere.
                         Ut porttitor pharetra ipsum, imperdiet imperdiet nisl vehicula in. Sed a nibh nec mi rhoncus hendrerit. Proin ipsum mi, </p>
                 </div>
