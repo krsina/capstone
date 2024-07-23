@@ -34,7 +34,7 @@ function ClubRenewal() {
 
                     <div>
                         <h2 className="text-2xl font-medium">Mission</h2>
-                        <textarea placeholder="Enter Description here" className="w-full h-16 border-r border-b border-gray-300 p-2 rounded "></textarea>
+                        <textarea placeholder="Enter Mission here" className="w-full h-16 border-r border-b border-gray-300 p-2 rounded "></textarea>
                     </div>
 
                     <div>

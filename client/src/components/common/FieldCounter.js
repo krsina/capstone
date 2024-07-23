@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 
-function FieldCounter({ placeholder, type = 'text', maxWords = 300 }) {
+function FieldCounter({ placeholder, type = 'text', maxChar = 300 }) {
     const [value, setValue] = useState('');
-    const wordCount = value.trim().split(/\s+/).filter(Boolean).length;
+    const charCount = value.length;
 
     const handleChange = (e) => {
-        const words = e.target.value.trim().split(/\s+/);
-        if (words.length <= maxWords) {
-            setValue(e.target.value);
-        } else {
-            // Only allow up to maxWords
-            setValue(words.slice(0, maxWords).join(' '));
+        // If the number of characters is less than or equal to the maximum number of characters, set the value
+        if (e.target.value.length <= maxChar) {
+            // Set the value
+            setValue(e.target.value)
         }
-    };
+    }
+
+
 
     return (
         <div className="mb-4">
@@ -33,7 +33,7 @@ function FieldCounter({ placeholder, type = 'text', maxWords = 300 }) {
                 />
             )}
             <div className="text-right text-sm text-gray-500 mt-1">
-                {wordCount}/{maxWords} words
+                {charCount}/{maxChar} Characters
             </div>
         </div>
     );

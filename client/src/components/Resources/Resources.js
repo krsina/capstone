@@ -16,12 +16,12 @@ function Resources() {
                     <p className="font-open-sans text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam accumsan eros diam, vel elementum dui dapibus posuere.
                         Ut porttitor pharetra ipsum, imperdiet imperdiet nisl vehicula in. Sed a nibh nec mi rhoncus hendrerit. Proin ipsum mi, </p>
                     <NavLink
-                        className="text-2xl font-encode-sans font-bold text-tertiary"
+                        className="text-2xl font-encode-sans font-bold text-tertiary transition duration-300 ease-in-out hover:text-secondary"
                         to="/resources/clubregistration"
                     >Club Registration</NavLink>
                     <p className="font-open-sans text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam accumsan eros diam, vel elementum dui dapibus posuere.
                         Ut porttitor pharetra ipsum, imperdiet imperdiet nisl vehicula in. Sed a nibh nec mi rhoncus hendrerit. Proin ipsum mi, </p>
-                    <NavLink className="text-2xl font-encode-sans font-bold text-tertiary"
+                    <NavLink className="text-2xl font-encode-sans font-bold text-tertiary duration-300 ease-in-out hover:text-secondary"
                         to="/resources/clubrenewal"
                     >Club Renewal</NavLink>
                     <p className="font-open-sans text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam accumsan eros diam, vel elementum dui dapibus posuere.
