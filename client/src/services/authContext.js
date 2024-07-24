@@ -7,22 +7,26 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
+        // Check if the user is already logged in
         const token = localStorage.getItem('authToken');
         const storedUser = localStorage.getItem('user');
 
+        // Checks if the token and user are stored in the local storage
         if (token && storedUser) {
+            // If the token and user are stored, set the user and isAuthenticated to true
             setIsAuthenticated(true);
             setUser(JSON.parse(storedUser));
         } else {
             console.log('No user is logged in');
             setIsAuthenticated(false);
         }
+
     }, []);
 
     const logout = () => {
-        localStorage.removeItem('authToken');
+        localStorage.removeItem('authToken'); // delete the token
         localStorage.removeItem('user');
-        setUser(null);
+        setUser(null); // Set the user to null
         setIsAuthenticated(false);
         console.log('User logged out');
     };

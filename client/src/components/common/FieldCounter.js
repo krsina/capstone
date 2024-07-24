@@ -6,13 +6,11 @@ function FieldCounter({ placeholder, type = 'text', maxChar = 300 }) {
 
     const handleChange = (e) => {
         // If the number of characters is less than or equal to the maximum number of characters, set the value
-        if (e.target.value.length <= maxChar) {
+        if (e.target.value.length < maxChar) {
             // Set the value
             setValue(e.target.value)
         }
     }
-
-
 
     return (
         <div className="mb-4">
@@ -21,17 +19,18 @@ function FieldCounter({ placeholder, type = 'text', maxChar = 300 }) {
                     placeholder={placeholder}
                     value={value}
                     onChange={handleChange}
-                    className="w-full h-24 border-r border-b border-gray-300 p-2 rounded"
+                    className="w-full h-24 border border-gray-300 p-2"
                 />
-            ) : (
-                <input
-                    type={type}
-                    placeholder={placeholder}
-                    value={value}
-                    onChange={handleChange}
-                    className="w-full border-r border-b border-gray-300 p-2 rounded"
-                />
-            )}
+            )
+                : (
+                    <input
+                        type={type}
+                        placeholder={placeholder}
+                        value={value}
+                        onChange={handleChange}
+                        className="w-full border border-gray-300 p-2 rounded"
+                    />
+                )}
             <div className="text-right text-sm text-gray-500 mt-1">
                 {charCount}/{maxChar} Characters
             </div>

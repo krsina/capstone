@@ -10,9 +10,11 @@ export default function SignIn() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const { setIsAuthenticated, setUser } = useAuth();
+    const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
 
         // Call signIn service
         const data = await signIn(email, password);
@@ -28,6 +30,7 @@ export default function SignIn() {
         } else {
             // Handle sign-in error (display error message, etc.)
             console.error('Sign-in failed:', data.error || 'Unknown error');
+            setError(data.error || 'Invalid login credentials');
         }
     };
 
@@ -42,7 +45,7 @@ export default function SignIn() {
                 <form className="w-full max-w-sm" onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${error ? 'border-red-500' : ''}`}
                             id="email"
                             type="email"
                             placeholder="UW Email"
@@ -50,10 +53,11 @@ export default function SignIn() {
                             onChange={(e) => setEmail(e.target.value)}
                             autoComplete="email"
                         />
+                        {error && <p className="text-red-500 text-xs italic">Invalid Credentials</p>}
                     </div>
                     <div className="mb-6">
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ${error ? 'border-red-500' : ''}`}
                             id="password"
                             type="password"
                             placeholder="Password"
@@ -61,6 +65,7 @@ export default function SignIn() {
                             onChange={(e) => setPassword(e.target.value)}
                             autoComplete="current-password"
                         />
+                        {error && <p className="text-red-500 text-xs italic">Invalid Credentials</p>}
                     </div>
                     <div className="flex items-center">
                         <button
