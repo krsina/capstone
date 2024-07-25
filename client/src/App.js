@@ -12,8 +12,9 @@ import PrivateRoute from './services/privateRoute';
 import ClubRegistration from './components/Resources/Forms/ClubRegistration';
 import ClubRenewal from './components/Resources/Forms/ClubRenewal';
 import { AuthProvider, useAuth } from './services/authContext';
-import TestPost from './pages/TestPost'; // Import the TestPost component
-import TestImageUpload from './pages/TestImageUpload';
+// import TestPost from './pages/TestPost'; // Import the TestPost component
+// import TestImageUpload from './pages/TestImageUpload';
+import Allocation from './components/ClubDashboard/Finance/AllocationForm';
 import TestClubFunctionality from './pages/TestClubFunctionality';
 function App() {
   const location = useLocation();
@@ -25,6 +26,7 @@ function App() {
       {shouldShowNavBar && <UserNavigation />}
       {shouldShowNavBar && <SideNavBar />}
       <Routes>
+        <Route path="/AllocationForm" element={<Allocation />} />
         <Route path="/" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/events" element={<PrivateRoute element={Events} />} />
@@ -33,8 +35,6 @@ function App() {
         <Route path="/resources/clubregistration" element={<PrivateRoute element={ClubRegistration} />} />
         <Route path="/resources/clubrenewal" element={<PrivateRoute element={ClubRenewal} />} />
         <Route path="/organization" element={<PrivateRoute element={OrganizationPage} />} />
-        <Route path="/testpost" element={<TestPost />} />
-        <Route path="/testimageupload" element={<TestImageUpload />} />
         <Route path="/testclub" element={<TestClubFunctionality />} />
       </Routes>
     </div>
