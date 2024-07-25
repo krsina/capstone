@@ -10,7 +10,9 @@ import OrganizationPage from './pages/OrganizationPage';
 import UserNavigation from './components/common/ProfileNavbar';
 import PrivateRoute from './services/privateRoute';
 import { AuthProvider, useAuth } from './services/authContext';
-
+import TestPost from './pages/TestPost'; // Import the TestPost component
+import TestImageUpload from './pages/TestImageUpload';
+import TestClubFunctionality from './pages/TestClubFunctionality';
 function App() {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
@@ -27,6 +29,9 @@ function App() {
         <Route path="/clubdashboard" element={<PrivateRoute element={ClubDashboard} />} />
         <Route path="/resources" element={<PrivateRoute element={ResourcesPage} />} />
         <Route path="/organization" element={<PrivateRoute element={OrganizationPage} />} />
+        <Route path="/testpost" element={<TestPost />} />
+        <Route path="/testimageupload" element={<TestImageUpload />} />
+        <Route path="/testclub" element={<TestClubFunctionality />} />
       </Routes>
     </div>
   );
