@@ -20,8 +20,10 @@ export default function SignUp() {
         const { id, value } = e.target;
 
         if (id === 'studentNumber') {
-            setStudentNumber(value);
+            if (value.length <= 6) setStudentNumber(value);
+
             setStudentNumberError(value.length > 6);
+
         } else if (id === 'uwEmail') {
             setUWEmail(value);
             setEmailError(!value.includes('@uw.edu'));

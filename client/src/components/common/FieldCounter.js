@@ -19,18 +19,17 @@ function FieldCounter({ placeholder, type = 'text', maxChar = 300 }) {
                     placeholder={placeholder}
                     value={value}
                     onChange={handleChange}
-                    className="w-full h-24 border border-gray-300 p-2"
+                    className="w-full h-24 border border-gray-300 p-2 rounded-xl hover:border-secondary text-secondary"
                 />
-            )
-                : (
-                    <input
-                        type={type}
-                        placeholder={placeholder}
-                        value={value}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 p-2 rounded"
-                    />
-                )}
+            ) : (
+                <input
+                    type={type}
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-xl"
+                />
+            )}
             <div className="text-right text-sm text-gray-500 mt-1">
                 {charCount}/{maxChar} Characters
             </div>
