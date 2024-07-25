@@ -3,22 +3,34 @@ import image1 from '../styling/signInImage.svg';
 import imageBG from '../styling/signInBG.svg';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { signIn } from '../../services/authServices';
+import { useAuth } from '../../services/authContext';
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const { setIsAuthenticated, setUser } = useAuth();
+    const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+
+        // Call signIn service
         const data = await signIn(email, password);
-        console.log(data);
+
+        // If sign-in is successful, set user authentication state and navigate to /events
         if (data.session) {
+            // Set user authentication state
+            setIsAuthenticated(true);
+            setUser(data.user);
+
             // Successful sign-in, navigate to /events
             navigate('/events');
         } else {
             // Handle sign-in error (display error message, etc.)
             console.error('Sign-in failed:', data.error || 'Unknown error');
+            setError(data.error || 'Invalid login credentials');
         }
     };
 
@@ -33,7 +45,7 @@ export default function SignIn() {
                 <form className="w-full max-w-sm" onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${error ? 'border-red-500' : ''}`}
                             id="email"
                             type="email"
                             placeholder="UW Email"
@@ -41,10 +53,11 @@ export default function SignIn() {
                             onChange={(e) => setEmail(e.target.value)}
                             autoComplete="email"
                         />
+                        {error && <p className="text-red-500 text-xs italic">Invalid Credentials</p>}
                     </div>
                     <div className="mb-6">
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ${error ? 'border-red-500' : ''}`}
                             id="password"
                             type="password"
                             placeholder="Password"
@@ -52,6 +65,7 @@ export default function SignIn() {
                             onChange={(e) => setPassword(e.target.value)}
                             autoComplete="current-password"
                         />
+                        {error && <p className="text-red-500 text-xs italic">Invalid Credentials</p>}
                     </div>
                     <div className="flex items-center">
                         <button
@@ -68,12 +82,6 @@ export default function SignIn() {
                         Sign up
                     </NavLink>
                 </p>
-                {/* Testing purpose button to get into application */}
-                <NavLink to="/events">
-                    <button className="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-5">
-                        Go to Application
-                    </button>
-                </NavLink>
             </div>
 
             {/* Sign In Illustration Right Side */}
