@@ -63,16 +63,17 @@ function CreatePostModal({ isOpen, closeModal }) {
                 <div className="grid grid-cols-3 gap-4 mb-8">
                     <div>
 
-                        <input type="text" placeholder="MM/DD/YYYY" className="w-full border border-gray-300 rounded-lg px-4 py-2 text-center" />
+                        <input type="date" placeholder="MM/DD/YYYY" className="w-full border border-gray-300 rounded-lg px-4 py-2 text-center" />
                         <label className="block text-sm font-medium text-gray-700 mb-1 text-center">Event Date</label>
                     </div>
                     <div>
                         <input type="text" placeholder="00:00pm - 00:00pm" className="w-full border border-gray-300 rounded-lg px-4 py-2 text-center" />
-                        <label className="block text-sm font-medium text-gray-700 mb-1 text-center">Event Date</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1 text-center">Event Time</label>
                     </div>
                     <div>
                         <input type="text" placeholder="DISC 127" className="w-full border border-gray-300 rounded-lg px-4 py-2 text-center" />
-                        <label className="block text-sm font-medium text-gray-700 mb-1 text-center">Event Date</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1 text-center">Event Location
+                        </label>
                     </div>
                 </div>
                 <div className="w-full mb-8">
