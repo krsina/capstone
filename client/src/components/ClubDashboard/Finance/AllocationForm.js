@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import BackButton from '../../common/BackButton';
 
 function AllocationForm() {
     const [items, setItems] = useState([{ itemName: '', detail: '', dollarAmount: '', adminComments: '' }]);
+    const [totalAmount, setTotalAmount] = useState(0);
+
 
     const handleAddItem = () => {
         setItems([...items, { itemName: '', detail: '', dollarAmount: '', adminComments: '' }]);
@@ -16,24 +19,21 @@ function AllocationForm() {
     };
 
     const handleInputChange = (index, event) => {
+        const { name, value } = event.target;
         const values = [...items];
-        values[index][event.target.name] = event.target.value;
+        values[index][name] = name === 'dollarAmount' ? parseFloat(value) || '' : value;
         setItems(values);
     };
 
+    useEffect(() => {
+        const total = items.reduce((acc, item) => acc + (parseFloat(item.dollarAmount) || 0), 0);
+        setTotalAmount(total);
+    }, [items]);
+
     return (
-        <div className="flex">
-            <div className="w-1/6 bg-purple-700 text-white flex flex-col p-4 space-y-4 min-h-screen">
-                <div className="text-2xl font-bold mb-8">Club Dashboard</div>
-                <a href="#" className="text-lg">Events</a>
-                <a href="#" className="text-lg">Organizations</a>
-                <a href="#" className="text-lg">Resources</a>
-                <a href="#" className="mt-auto text-lg">Logout</a>
-            </div>
-            <div className="w-5/6 bg-gray-200 py-20 flex flex-col items-center relative">
-                <div className="absolute top-0 left-0 p-6">
-                    <button className="text-primary font-bold">Back</button>
-                </div>
+        <div>
+            <div className="bg-gray-100 py-20 flex flex-col items-center sm:ml-80 ">
+                <BackButton />
                 <div className="w-4/5 bg-white py-10 px-12 rounded-lg shadow-lg">
                     <div className="flex mb-8">
                         <div className="w-1/2 bg-primary p-6 rounded-lg flex flex-col items-center justify-center text-white">
@@ -65,13 +65,13 @@ function AllocationForm() {
                             )}
                         </div>
                         {items.map((item, index) => (
-                            <div key={index} className="space-y-4 mt-4">
-                                <div className="flex flex-row space-x-4">
+                            <div key={index} className="space-y-8  mt-4">
+                                <div className="flex flex-row space-x-4 h-16 ">
                                     <input
                                         type="text"
                                         name="itemName"
                                         placeholder="Item Name (ex. Decorations, Food, etc.)"
-                                        className="border-b border-r border-gray-300 p-2 rounded w-full"
+                                        className="border-b border-r border-gray-300 p-2 rounded w-full "
                                         value={item.itemName}
                                         onChange={(event) => handleInputChange(index, event)}
                                     />
@@ -103,11 +103,12 @@ function AllocationForm() {
                                         disabled
                                     />
                                 </div>
+                                <hr className="border-secondary mt-20" />
                             </div>
                         ))}
                     </div>
                     <div className="text-4xl text-center font-encode-sans mt-8">
-                        Total Request:
+                        Total Request: ${totalAmount.toFixed(2)}
                     </div>
                     <div className="flex justify-end">
                         <button className="bg-black text-white px-4 py-2 rounded-lg my-2">Submit</button>
