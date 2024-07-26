@@ -14,7 +14,9 @@ import FinanceAnalyticsModal from '../ClubDashboard/Modals/FinanceAnalyticsModal
 import CreatePostModal from '../ClubDashboard/Modals/CreatePostModal';
 
 function SideNavbar() {
-    const { logout } = useAuth();
+    const { logout } = useAuth(); // Used to get the logout function from the authContext
+    const location = useLocation(); // Used to get the current location of the user
+    const [activeModal, setIsModalOpen] = useState(null); // Used to open and close the modal
 
     const handleLogout = () => {
         logout(); // Calls the logout function from the authContext
@@ -103,6 +105,15 @@ function SideNavbar() {
                     </NavLink>
                 </div>
             </aside >
+
+            {/* Below are the modals that are opened when the user clicks on the buttons */}
+            {activeModal === 'createPost' && (
+                <CreatePostModal isOpen={true} closeModal={handleModalClose} /> // Opens the CreatePostModal
+            )}
+            {activeModal === 'financeAnalytics' && (
+                <FinanceAnalyticsModal isOpen={true} closeModal={handleModalClose} /> // Opens the FinanceAnalyticsModal
+            )}
+
         </div>
     )
 }

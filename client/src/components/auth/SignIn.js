@@ -13,8 +13,14 @@ export default function SignIn() {
     const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Prevent form submission
         setError('');
+
+        // If email or password is empty, return don't submit
+        if (!email || !password) {
+            setError('Must include email and password');
+            return;
+        }
 
         // Call signIn service
         const data = await signIn(email, password);
@@ -53,7 +59,7 @@ export default function SignIn() {
                             onChange={(e) => setEmail(e.target.value)}
                             autoComplete="email"
                         />
-                        {error && <p className="text-red-500 text-xs italic">Invalid Credentials</p>}
+                        {error && <p className="text-red-500 text-xs italic">{error}</p>}
                     </div>
                     <div className="mb-6">
                         <input
@@ -65,7 +71,7 @@ export default function SignIn() {
                             onChange={(e) => setPassword(e.target.value)}
                             autoComplete="current-password"
                         />
-                        {error && <p className="text-red-500 text-xs italic">Invalid Credentials</p>}
+                        {error && <p className="text-red-500 text-xs italic">{error}</p>}
                     </div>
                     <div className="flex items-center">
                         <button

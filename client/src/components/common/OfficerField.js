@@ -1,4 +1,3 @@
-// OfficerField.js
 import React, { useState } from 'react';
 
 const OfficerField = () => {
@@ -65,7 +64,7 @@ const OfficerField = () => {
             <button
                 type="button"
                 onClick={addOfficer}
-                className="bg-secondary hover:bg-primary text-white font-bold py-4 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
+                className="bg-secondary hover:bg-primary text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
             >
                 Add Member
             </button>

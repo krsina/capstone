@@ -12,10 +12,9 @@ import PrivateRoute from './services/privateRoute';
 import ClubRegistration from './components/Resources/Forms/ClubRegistration';
 import ClubRenewal from './components/Resources/Forms/ClubRenewal';
 import { AuthProvider, useAuth } from './services/authContext';
-// import TestPost from './pages/TestPost'; // Import the TestPost component
-// import TestImageUpload from './pages/TestImageUpload';
 import Allocation from './components/ClubDashboard/Finance/AllocationForm';
 import Expenditure from './components/ClubDashboard/Finance/ExpenditureForm';
+
 import TestClubFunctionality from './pages/TestClubFunctionality';
 import FinancePage from './pages/FinancePage';
 import AllocationForm from './components/ClubDashboard/Finance/AllocationForm';
