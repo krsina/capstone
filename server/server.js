@@ -16,9 +16,9 @@ app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(express.json());
 app.use('/auth', authRoute)
 app.use('/protected', authVerify, protectedRoute)
+app.use('/club', clubRoutes);
 // app.use('/posts', postRoutes);
 // app.use('/upload', imageUploadRoute);
-app.use('/club', clubRoutes);
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
