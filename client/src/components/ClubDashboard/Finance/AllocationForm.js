@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import FieldCounter from '../../common/FieldCounter';
 
 function AllocationForm() {
     const [items, setItems] = useState([{ itemName: '', detail: '', dollarAmount: '', adminComments: '' }]);
+    const [totalAmount, setTotalAmount] = useState(0);
+
 
     const handleAddItem = () => {
         setItems([...items, { itemName: '', detail: '', dollarAmount: '', adminComments: '' }]);
@@ -16,10 +19,16 @@ function AllocationForm() {
     };
 
     const handleInputChange = (index, event) => {
+        const { name, value } = event.target;
         const values = [...items];
-        values[index][event.target.name] = event.target.value;
+        values[index][name] = name === 'dollarAmount' ? parseFloat(value) || '' : value;
         setItems(values);
     };
+
+    useEffect(() => {
+        const total = items.reduce((acc, item) => acc + (parseFloat(item.dollarAmount) || 0), 0);
+        setTotalAmount(total);
+    }, [items]);
 
     return (
         <div className="flex">
@@ -65,13 +74,13 @@ function AllocationForm() {
                             )}
                         </div>
                         {items.map((item, index) => (
-                            <div key={index} className="space-y-4 mt-4">
-                                <div className="flex flex-row space-x-4">
+                            <div key={index} className="space-y-8  mt-4">
+                                <div className="flex flex-row space-x-4 h-16 ">
                                     <input
                                         type="text"
                                         name="itemName"
                                         placeholder="Item Name (ex. Decorations, Food, etc.)"
-                                        className="border-b border-r border-gray-300 p-2 rounded w-full"
+                                        className="border-b border-r border-gray-300 p-2 rounded w-full "
                                         value={item.itemName}
                                         onChange={(event) => handleInputChange(index, event)}
                                     />
@@ -103,11 +112,12 @@ function AllocationForm() {
                                         disabled
                                     />
                                 </div>
+                                <hr className="border-secondary mt-20" />
                             </div>
                         ))}
                     </div>
                     <div className="text-4xl text-center font-encode-sans mt-8">
-                        Total Request:
+                        Total Request: ${totalAmount.toFixed(2)}
                     </div>
                     <div className="flex justify-end">
                         <button className="bg-black text-white px-4 py-2 rounded-lg my-2">Submit</button>

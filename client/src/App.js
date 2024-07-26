@@ -27,8 +27,6 @@ function App() {
       {shouldShowNavBar && <UserNavigation />}
       {shouldShowNavBar && <SideNavBar />}
       <Routes>
-        <Route path="/AllocationForm" element={<Allocation />} />
-        <Route path="/ExpenditureForm" element={<Expenditure />} />
         <Route path="/" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/events" element={<PrivateRoute element={Events} />} />
@@ -36,6 +34,8 @@ function App() {
         <Route path="/resources" element={<PrivateRoute element={ResourcesPage} />} />
         <Route path="/resources/clubregistration" element={<PrivateRoute element={ClubRegistration} />} />
         <Route path="/resources/clubrenewal" element={<PrivateRoute element={ClubRenewal} />} />
+        <Route path="/finance/AllocationForm" element={<PrivateRoute element={Allocation} />} />
+        <Route path="/finance/ExpenditureForm" element={<PrivateRoute element={Expenditure} />} />
         <Route path="/organization" element={<PrivateRoute element={OrganizationPage} />} />
         <Route path="/testclub" element={<TestClubFunctionality />} />
       </Routes>
