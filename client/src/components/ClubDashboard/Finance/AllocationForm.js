@@ -1,6 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function AllocationForm() {
+    const [items, setItems] = useState([{ itemName: '', detail: '', dollarAmount: '', adminComments: '' }]);
+
+    const handleAddItem = () => {
+        setItems([...items, { itemName: '', detail: '', dollarAmount: '', adminComments: '' }]);
+    };
+
+    const handleDeleteItem = (index) => {
+        if (items.length > 1) {
+            const values = [...items];
+            values.splice(index, 1);
+            setItems(values);
+        }
+    };
+
+    const handleInputChange = (index, event) => {
+        const values = [...items];
+        values[index][event.target.name] = event.target.value;
+        setItems(values);
+    };
+
     return (
         <div className="flex">
             <div className="w-1/6 bg-purple-700 text-white flex flex-col p-4 space-y-4 min-h-screen">
@@ -31,26 +51,60 @@ function AllocationForm() {
                                 <textarea placeholder="Event Description (Max 150 characters)" className="border-b border-r border-gray-300 p-2 rounded w-full h-20" maxLength="150"></textarea>
                                 <div className='flex flex-row space-x-4'>
                                     <input type="text" placeholder="Point of Contact Name" className="border-b border-r border-gray-300 p-2 rounded w-full" />
-                                    <input type="email" placeholder="Point of Contact Email" className="border-b border-r border-gray-300 p-2 rounded w-full" /> 
-                                </div> 
+                                    <input type="email" placeholder="Point of Contact Email" className="border-b border-r border-gray-300 p-2 rounded w-full" />
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div className="mt-8">
                         <h2 className="text-2xl font-bold bg-primary text-white rounded-lg text-center py-2">Allocation Breakdown</h2>
-                        <div className="flex justify-end">
-                            <button className="bg-black text-white px-4 py-2 rounded-lg my-2">ADD</button>
+                        <div className="flex justify-end space-x-4">
+                            <button onClick={handleAddItem} className="bg-black text-white px-4 py-2 rounded-lg my-2">ADD</button>
+                            {items.length > 1 && (
+                                <button onClick={() => handleDeleteItem(items.length - 1)} className="bg-black text-white px-4 py-2 rounded-lg my-2">DELETE</button>
+                            )}
                         </div>
-                        <div className="space-y-4 mt-4">
-                            <div className="flex flex-row space-x-4">
-                                <input type="text" placeholder="Item Name (ex. Decorations, Food, etc.)" className="border-b border-r border-gray-300 p-2 rounded w-full" />
-                                <input type="text" placeholder="Detail (Max 300 Characters)" className="border-b border-r border-gray-300 p-2 rounded w-full" maxLength="300" />
+                        {items.map((item, index) => (
+                            <div key={index} className="space-y-4 mt-4">
+                                <div className="flex flex-row space-x-4">
+                                    <input
+                                        type="text"
+                                        name="itemName"
+                                        placeholder="Item Name (ex. Decorations, Food, etc.)"
+                                        className="border-b border-r border-gray-300 p-2 rounded w-full"
+                                        value={item.itemName}
+                                        onChange={(event) => handleInputChange(index, event)}
+                                    />
+                                    <input
+                                        type="text"
+                                        name="detail"
+                                        placeholder="Detail (Max 300 Characters)"
+                                        className="border-b border-r border-gray-300 p-2 rounded w-full"
+                                        maxLength="300"
+                                        value={item.detail}
+                                        onChange={(event) => handleInputChange(index, event)}
+                                    />
+                                </div>
+                                <div className="flex flex-row space-x-4">
+                                    <input
+                                        type="number"
+                                        name="dollarAmount"
+                                        placeholder="Dollar Amount"
+                                        className="border-b border-r border-gray-300 p-2 rounded w-full"
+                                        value={item.dollarAmount}
+                                        onChange={(event) => handleInputChange(index, event)}
+                                    />
+                                    <input
+                                        type="text"
+                                        name="adminComments"
+                                        placeholder="Admin Comments"
+                                        className="border-b border-r border-gray-300 p-2 rounded w-full"
+                                        value={item.adminComments}
+                                        disabled
+                                    />
+                                </div>
                             </div>
-                            <div className="flex flex-row space-x-4">
-                                <input type="number" placeholder="Dollar Amount" className="border-b border-r border-gray-300 p-2 rounded w-full" />
-                                <input type="text" placeholder="Admin Comments" className="border-b border-r border-gray-300 p-2 rounded w-full" disabled />
-                            </div>
-                        </div>
+                        ))}
                     </div>
                     <div className="text-4xl text-center font-encode-sans mt-8">
                         Total Request:

@@ -15,6 +15,7 @@ import { AuthProvider, useAuth } from './services/authContext';
 // import TestPost from './pages/TestPost'; // Import the TestPost component
 // import TestImageUpload from './pages/TestImageUpload';
 import Allocation from './components/ClubDashboard/Finance/AllocationForm';
+import Expenditure from './components/ClubDashboard/Finance/ExpenditureForm';
 import TestClubFunctionality from './pages/TestClubFunctionality';
 function App() {
   const location = useLocation();
@@ -27,6 +28,7 @@ function App() {
       {shouldShowNavBar && <SideNavBar />}
       <Routes>
         <Route path="/AllocationForm" element={<Allocation />} />
+        <Route path="/ExpenditureForm" element={<Expenditure />} />
         <Route path="/" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/events" element={<PrivateRoute element={Events} />} />
