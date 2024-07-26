@@ -11,7 +11,7 @@ export default function ProfileNavbar() {
         '/resources/clubrenewal': 'Club Renewal'
     }
 
-    const bgClass = location.pathname in routeBgChanges ? 'bg-gray-300' : 'bg-white';
+    const bgClass = location.pathname in routeBgChanges ? 'bg-gray-100' : 'bg-white';
 
     return (
         <div className={`absolute top-0 right-0 p-6 ${bgClass}`}>

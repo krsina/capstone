@@ -17,7 +17,7 @@ function BackButton() {
     };
 
     return (
-        <div className="top-0 absolute left-0 ml-80 p-4">
+        <div className="top-0 absolute left-0 sm:ml-80 p-4">
             <button onClick={handleBack}
                 className="flex items-center gap-1 text-xl font-encode-sans font-light">
                 <img src={BackIcon}

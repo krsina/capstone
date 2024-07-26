@@ -4,49 +4,47 @@ import BackButton from '../../common/BackButton';
 import OfficerField from '../../common/OfficerField';
 
 function ClubRenewal() {
-
-
     return (
-        <div className="bg-gray-300 py-20 flex flex-row items-center justify-center ml-80">
-            <BackButton />
-            <div className="w-11/12 bg-white py-20 px-24 rounded-lg">
-                <div className="bg-primary p-4 rounded-lg flex  items-center justify-center">
-                    <h1 className="text-6xl font-encode-sans font-bold text-white px-6 py-4">Club Renewal</h1>
+        <div className="bg-gray-100 min-h-screen flex items-center justify-center py-20 sm:ml-80">
+            <div className="w-full max-w-5xl mx-auto bg-white shadow-lg rounded-lg p-8">
+                <BackButton />
+                <div className="bg-primary p-6 rounded-lg text-center mb-8">
+                    <h1 className="text-5xl font-bold text-white">Club Renewal</h1>
                 </div>
 
-                {/* Form */}
-                <form className="mt-8 space-y-8 text-secondary font-open-sans text-lg">
-                    <div className="space-x-1">
-                        <h2 className="text-3xl font-bold ">Club Council Approval</h2>
-                        <p className="text-lg font-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                    </div>
+                <form className="space-y-8 text-secondary">
+                    <section>
+                        <h2 className="text-2xl font-bold mb-4">Club Council Approval</h2>
+                        <p className="text-lg font-light mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                    </section>
 
-                    <div className="grid gap-4 mt-4 w-7/12">
-                        <h2 className="text-3xl font-bold ">Club Name</h2>
-                        <input type="text" placeholder="Club Name" className="border-r border-b border-gray-300 p-2 rounded" />
-                    </div>
+                    <section>
+                        <h2 className="text-2xl font-bold mb-4">Club Name</h2>
+                        <div>
+                            <input type="text" placeholder="Club Name" className="mt-1 block w-full border-r border-b border-gray-300 p-4 rounded-md shadow-sm focus:border-primary focus:ring-primary" />
+                        </div>
+                    </section>
 
-                    <div className="gap-4 grid">
-                        <h2 className="text-3xl font-bold">Officers</h2>
-                        <p className="text-lg font-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                    <section>
+                        <h2 className="text-2xl font-bold mb-4">Officers</h2>
+                        <p className="text-lg font-light mb-4">Please provide details of the club officers below.</p>
                         <OfficerField />
-                    </div>
+                    </section>
 
-                    {/* Club Description */}
-                    < h2 className="text-3xl font-bold" > Club Description</h2>
-                    <FieldCounter placeholder="Enter Description here" type="textarea" maxWords={300} />
+                    <section>
+                        <h2 className="text-2xl font-bold mb-4">Club Description</h2>
+                        <FieldCounter placeholder="Enter Description here" type="textarea" maxWords={300} />
+                    </section>
 
-                    {/* Club Mission */}
-                    <h2 className="text-3xl font-bold">Mission</h2>
-                    <FieldCounter placeholder="Enter Description here" type="textarea" maxWords={300} />
+                    <section>
+                        <h2 className="text-2xl font-bold mb-4">Mission</h2>
+                        <FieldCounter placeholder="Enter Description here" type="textarea" maxWords={300} />
+                    </section>
 
-                    <button
-                        className="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
+                    <button className="w-full bg-primary hover:bg-secondary text-white font-bold py-3 rounded focus:outline-none focus:shadow-outline mt-8">
                         Submit
                     </button>
                 </form>
-
             </div>
         </div>
     )
