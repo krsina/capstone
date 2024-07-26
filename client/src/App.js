@@ -12,6 +12,9 @@ import PrivateRoute from './services/privateRoute';
 import ClubRegistration from './components/Resources/Forms/ClubRegistration';
 import ClubRenewal from './components/Resources/Forms/ClubRenewal';
 import { AuthProvider, useAuth } from './services/authContext';
+import Allocation from './components/ClubDashboard/Finance/AllocationForm';
+import Expenditure from './components/ClubDashboard/Finance/ExpenditureForm';
+
 import TestClubFunctionality from './pages/TestClubFunctionality';
 // import TestPost from './pages/TestPost'; // Import the TestPost component
 // import TestImageUpload from './pages/TestImageUpload';
@@ -27,6 +30,8 @@ function App() {
       {shouldShowNavBar && <UserNavigation />}
       {shouldShowNavBar && <SideNavBar />}
       <Routes>
+        <Route path="/AllocationForm" element={<Allocation />} />
+        <Route path="/ExpenditureForm" element={<Expenditure />} />
         <Route path="/" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/events" element={<PrivateRoute element={Events} />} />
