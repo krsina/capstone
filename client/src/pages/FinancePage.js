@@ -1,10 +1,11 @@
 import React from 'react'
+import Finance from '../components/ClubDashboard/Finance/FinancePage'
+
 
 function FinancePage() {
     return (
-        <div className="ml=80">
-
-
+        <div>
+            <Finance />
         </div>
     )
 }

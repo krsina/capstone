@@ -9,7 +9,7 @@ function Event() {
             <div className="flex items-center justify-center">
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-row gap-2">
-                        <img class="w-10 h-10 rounded-full bg-gray-800" src="" alt="Rounded avatar"></img>
+                        <img className="w-10 h-10 rounded-full bg-gray-800" src="" alt="Rounded avatar"></img>
                         <h1 className="font-encode-sans text-2xl font-semibold">Club Name Holder</h1>
                     </div>
                     <div className="relative rounded lg:w-[34rem] lg:h-[26rem] bg-gray-400 items-center justify-center flex">

@@ -12,9 +12,9 @@ import PrivateRoute from './services/privateRoute';
 import ClubRegistration from './components/Resources/Forms/ClubRegistration';
 import ClubRenewal from './components/Resources/Forms/ClubRenewal';
 import { AuthProvider, useAuth } from './services/authContext';
-import TestPost from './pages/TestPost'; // Import the TestPost component
-import TestImageUpload from './pages/TestImageUpload';
 import TestClubFunctionality from './pages/TestClubFunctionality';
+import FinancePage from './pages/FinancePage';
+
 function App() {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
@@ -33,9 +33,10 @@ function App() {
         <Route path="/resources/clubregistration" element={<PrivateRoute element={ClubRegistration} />} />
         <Route path="/resources/clubrenewal" element={<PrivateRoute element={ClubRenewal} />} />
         <Route path="/organization" element={<PrivateRoute element={OrganizationPage} />} />
-        <Route path="/testpost" element={<TestPost />} />
-        <Route path="/testimageupload" element={<TestImageUpload />} />
+        {/*} <Route path="/testpost" element={<TestPost />} />
+        <Route path="/testimageupload" element={<TestImageUpload />} /> */}
         <Route path="/testclub" element={<TestClubFunctionality />} />
+        <Route path="/clubdashboard/finance" element={<FinancePage />} />
       </Routes>
     </div>
   );
