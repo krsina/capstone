@@ -23,6 +23,15 @@ function CreatePostModal({ isOpen, closeModal }) {
   const [location, setLocation] = useState("");
   if (!isOpen) return null;
 
+  const parseTimeString = (timeString) => {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    date.setSeconds(0);
+    return date;
+  };
+
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
@@ -78,8 +87,8 @@ function CreatePostModal({ isOpen, closeModal }) {
         title,
         body,
         location,
-        start_time: event_start,
-        end_time: event_end,
+        start_time: format(parseTimeString(event_start), "h:mm a"),
+        end_time: format(parseTimeString(event_end), "h:mm a"),
         created_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       }),
     })
