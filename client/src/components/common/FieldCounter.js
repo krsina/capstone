@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function FieldCounter({ placeholder, type = 'text', maxChar = 300, className = '', textareaClassName = '' }) {
+function FieldCounter({ placeholder, type = 'text', maxChar = 300, className = '', textareaClassName = '', onChange }) {
     const [value, setValue] = useState('');
     const charCount = value.length;
 
@@ -9,6 +9,10 @@ function FieldCounter({ placeholder, type = 'text', maxChar = 300, className = '
         if (e.target.value.length <= maxChar) {
             // Set the value
             setValue(e.target.value);
+            // Call the onChange prop if provided
+            if (onChange) {
+                onChange(e);
+            }
         }
     }
 
