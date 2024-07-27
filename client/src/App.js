@@ -14,12 +14,10 @@ import ClubRenewal from './components/Resources/Forms/ClubRenewal';
 import { AuthProvider, useAuth } from './services/authContext';
 import Allocation from './components/ClubDashboard/Finance/AllocationForm';
 import Expenditure from './components/ClubDashboard/Finance/ExpenditureForm';
-
 import TestClubFunctionality from './pages/TestClubFunctionality';
 import FinancePage from './pages/FinancePage';
 import AllocationForm from './components/ClubDashboard/Finance/AllocationForm';
 import ExpenditureForm from './components/ClubDashboard/Finance/ExpenditureForm';
-
 
 function App() {
   const location = useLocation();
