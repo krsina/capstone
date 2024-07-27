@@ -12,9 +12,13 @@ import PrivateRoute from './services/privateRoute';
 import ClubRegistration from './components/Resources/Forms/ClubRegistration';
 import ClubRenewal from './components/Resources/Forms/ClubRenewal';
 import { AuthProvider, useAuth } from './services/authContext';
-import TestPost from './pages/TestPost'; // Import the TestPost component
-import TestImageUpload from './pages/TestImageUpload';
+import Allocation from './components/ClubDashboard/Finance/AllocationForm';
+import Expenditure from './components/ClubDashboard/Finance/ExpenditureForm';
 import TestClubFunctionality from './pages/TestClubFunctionality';
+import FinancePage from './pages/FinancePage';
+import AllocationForm from './components/ClubDashboard/Finance/AllocationForm';
+import ExpenditureForm from './components/ClubDashboard/Finance/ExpenditureForm';
+
 function App() {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
@@ -32,10 +36,13 @@ function App() {
         <Route path="/resources" element={<PrivateRoute element={ResourcesPage} />} />
         <Route path="/resources/clubregistration" element={<PrivateRoute element={ClubRegistration} />} />
         <Route path="/resources/clubrenewal" element={<PrivateRoute element={ClubRenewal} />} />
+        <Route path="/finance/AllocationForm" element={<PrivateRoute element={Allocation} />} />
+        <Route path="/finance/ExpenditureForm" element={<PrivateRoute element={Expenditure} />} />
         <Route path="/organization" element={<PrivateRoute element={OrganizationPage} />} />
-        <Route path="/testpost" element={<TestPost />} />
-        <Route path="/testimageupload" element={<TestImageUpload />} />
         <Route path="/testclub" element={<TestClubFunctionality />} />
+        <Route path="/clubdashboard/finance" element={<PrivateRoute element={FinancePage} />} />
+        <Route path="/clubdashboard/finance/allocation" element={<PrivateRoute element={AllocationForm} />} />
+        <Route path="/clubdashboard/finance/expenditure" element={<PrivateRoute element={ExpenditureForm} />} />
       </Routes>
     </div>
   );
