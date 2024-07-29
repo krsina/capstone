@@ -33,7 +33,7 @@ function AllocationForm() {
 
     return (
         <div>
-            <div className="bg-gray-100 py-20 flex flex-col items-center sm:ml-80 ">
+            <div className="bg-gray-100 pt-20 flex flex-col items-center sm:ml-80 ">
                 <BackButton />
                 {/* General Information */}
                 <div className="sm:w-4/5 bg-white py-10  sm:px-12 px-4 rounded-lg shadow-lg">

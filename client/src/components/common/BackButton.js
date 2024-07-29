@@ -19,10 +19,10 @@ function BackButton() {
     return (
         <div className="top-0 absolute left-0 sm:ml-80 p-4">
             <button onClick={handleBack}
-                className="flex items-center gap-1 text-xl font-encode-sans font-light">
+                className="flex items-center gap-1 text-xl font-encode-sans font-light hover:scale-110 hover:animate-spin hover:underline transform transition duration-300 ease-in-out ">
                 <img src={BackIcon}
                     alt="Back"
-                    className="h-8 w-8"
+                    className="h-8 w-8 "
                 /> Back
             </button>
 

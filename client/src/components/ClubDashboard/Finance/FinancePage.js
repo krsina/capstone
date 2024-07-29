@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 function FinancePage() {
     return (
-        <div className="sm:ml-80 sm:px-0 px-4 font-inter">
+        <div className="sm:ml-80 sm:px-0 px-4">
             <BackButton />
             <div className="flex flex-col items-center justify-center pt-32 font-encode-sans text-secondary">
                 <section className="space-y-4 flex flex-col justify-center items-center w-full">
