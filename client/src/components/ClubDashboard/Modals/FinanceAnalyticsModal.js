@@ -11,18 +11,17 @@ function FinanceAnalyticsModal({ isOpen, closeModal }) {
 
 
     return (
-        <div className="sm:fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75"
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75"
             onClick={handleOverlayClick}
         >
-            <div className="sm:ml-80 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all py-4 sm:max-w-5xl sm:w-full sm:max-h-full sm:h-5/6">
-                <div className="px-4 py-3 sm:px-6 sm:flex ">
+            <div className="bg-white rounded-lg shadow-xl transform py-6 sm:px-12 w-full sm:max-w-3xl sm:ml-40  px-4">
+                <div className="flex justify-between items-center mb-8">
                     <button
                         type="button"
-                        className="w-full inline-flex justify-center rounded-md border border-transparent px-4 py-2 bg-secondary text-base font-medium text-white shadow-sm 
-                        hover:bg-primary transition duration-300 ease-in-out sm:ml-3 sm:w-auto sm:text-sm"
+                        className="text-secondary hover:text-black transition hover:shadow-sm"
                         onClick={closeModal}
                     >
-                        Close
+                        &#10005; Close
                     </button>
                 </div>
                 <div className="px-20 flex flex-col items-center text-center space-y-2">
