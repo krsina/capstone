@@ -108,7 +108,7 @@ function CreatePostModal({ isOpen, closeModal }) {
             className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75"
             onClick={handleOverlayClick}
         >
-            <div className="bg-white rounded-lg shadow-xl transform py-6 sm:px-12 w-full sm:max-w-3xl sm:ml-40  px-4">
+            <div className="bg-white rounded-lg shadow-xl transform py-6 sm:px-12 w-full sm:max-w-3xl sm:ml-40 px-4 max-h-screen overflow-y-auto">
                 <div className="flex justify-between items-center mb-8">
                     <button
                         type="button"

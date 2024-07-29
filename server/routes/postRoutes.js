@@ -8,7 +8,7 @@ async function createPost(club_id, image_url, title, body, location, created_at,
         const { data, error } = await supabase
             .from('posts')
             .insert([{ club_id, image_url, title, body, location, created_at, start_time, end_time }]);
-        
+
         if (error) {
             console.error('Error message:', error.message);
             throw new Error(error.message);
@@ -27,6 +27,23 @@ router.post('/createPost', async (req, res) => {
         res.status(200).send('Post created successfully');
     } catch (error) {
         res.status(500).send('Error creating post');
+    }
+});
+
+router.get('/getPosts', async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from('posts')
+            .select('*');
+
+        if (error) {
+            console.error('Error message:', error.message);
+            throw new Error(error.message);
+        }
+
+        res.status(200).send(data);
+    } catch (error) {
+        res.status(500).send('Error getting posts');
     }
 });
 
