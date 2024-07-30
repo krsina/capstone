@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
 import SideNavBar from './components/common/SideNavbar';
+import Mobile from './components/common/MobileNavBar';
 import ClubDashboard from './pages/ClubDashboardPage';
 import ResourcesPage from './pages/ResourcesPage';
 import Events from './pages/EventPage';
@@ -29,6 +30,8 @@ function App() {
     <div className="App">
       {shouldShowNavBar && <UserNavigation />}
       {shouldShowNavBar && <SideNavBar />}
+      {/* checks view port to be sm */}
+      {shouldShowNavBar && <Mobile />}
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />

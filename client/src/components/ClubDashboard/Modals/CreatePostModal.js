@@ -66,12 +66,33 @@ function CreatePostModal({ isOpen, closeModal }) {
         }
     };
 
+    //Checking for valid form input
+    const validateForm = () => {
+        return (
+            !error &&
+            title.trim() !== "" &&
+            body.trim() !== "" &&
+            location.trim() !== "" &&
+            event_date !== "" &&
+            event_start !== "" &&
+            event_end !== ""
+        )
+    }
+
+    // Function that validates the form and sends the data to the server
     const handlePost = (event) => {
         event.preventDefault(); // Prevent form from causing a page refresh
         const imageData = new FormData();
         imageData.append('file', imageFile);
         imageData.append('club_id', club_id);
         imageData.append('uuid', uuid);
+
+        if (!validateForm()) {
+            setError("Please fill out all fields");
+            alert('Please fill out all fields');
+            return;
+        }
+
         fetch('http://localhost:3001/upload', { // Adjust the URL to your upload endpoint
             method: 'POST',
             body: imageData, // Send the form data directly without JSON.stringify
@@ -105,6 +126,7 @@ function CreatePostModal({ isOpen, closeModal }) {
         })
             .then((response) => response.text())
             .then((data) => console.log(data))
+
             .catch((error) => {
                 console.error("Error:", error);
             });
@@ -128,7 +150,7 @@ function CreatePostModal({ isOpen, closeModal }) {
                     </button>
                 </div>
                 <div className="w-full mb-8">
-                    <div className="relative bg-gray-100 border border-dashed border-gray-300 rounded-lg h-60 flex items-center justify-center">
+                    <div className="relative bg-gray-100 border border-dashed border-gray-300 rounded-lg h-60 flex items-center justify-center hover:border-secondary hover:scale-105 duration-500 transition ease-in-out">
                         {image ? (
                             <img
                                 src={image}
@@ -192,7 +214,7 @@ function CreatePostModal({ isOpen, closeModal }) {
                         </label>
                     </div>
                 </div>
-                <div className="grid grid-cols-3 gap-4 mb-8">
+                <div className="grid grid-cols-3 gap-4 mb-4">
                     <div>
                         <DatePicker
                             selected={event_date}
@@ -235,7 +257,7 @@ function CreatePostModal({ isOpen, closeModal }) {
                         </label>
                     </div>
                 </div>
-                <div className="w-full mb-8">
+                <div className="w-full mb-4">
                     <label
                         htmlFor="description"
                         className="block text-sm font-medium text-gray-700 mb-1"
@@ -247,7 +269,7 @@ function CreatePostModal({ isOpen, closeModal }) {
                         onChange={(e) => setBody(e.target.value)}
                         placeholder="Enter Description"
                         type="textarea"
-                        maxChar={250}
+                        maxChar={1200}
                         textareaClassName="h-32"
                     />
                 </div>

@@ -3,13 +3,13 @@ const router = express.Router();
 const supabase = require('../supabaseClient');
 
 router.post('/create', async (req, res) => {
-    const { name, description } = req.body;
+    const { name, description, mission } = req.body;
     if (!name || !description) {
         return res.status(400).send('Club name and description are required');
     }
     const { data, error } = await supabase
         .from('club')
-        .insert([{ name, description }]);
+        .insert([{ name, description, mission }]);
     if (error) {
         console.error('Error message:', error.message);
         return res.status(500).send('Error creating club');
@@ -50,7 +50,6 @@ router.get('/getClubs', async (req, res) => {
         console.error('Error message:', error.message);
         return res.status(500).send('Error fetching clubs');
     }
-
     res.json(data);
 });
 

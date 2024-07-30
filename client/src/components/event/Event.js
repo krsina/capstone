@@ -30,7 +30,7 @@ function Event() {
     }
 
     return (
-        <div className="sm:ml-80 py-20 md:px-28 px-6 flex flex-col space-y-24 text-secondary">
+        <div className="sm:ml-80 py-20 md:px-28 px-6 flex flex-col space-y-12 text-secondary sm:w-3/4">
             <Filter sortPosts={sortPosts} />
             <div className="md:text-4xl text-3xl font-encode-sans font-semibold">
                 <h1>Recent Posts</h1>
@@ -41,40 +41,40 @@ function Event() {
                 </div>
             ) : (
                 posts.map(post => (
-                    <div key={post.id} className="flex  border-primary border-b border-t p-4">
-                        <div className="relative lg:w-[30rem] lg:h-[30rem] bg-gray-400 rounded-lg overflow-hidden"> {/* Adjusted image container */}
+                    <div key={post.id} className="flex sm:flex-row flex-col border-primary border-b border-t p-4">
+                        <div className="lg:w-[30rem] lg:h-[30rem] bg-gray-400 rounded-lg overflow-hidden"> {/* Adjusted image container */}
                             {post.image_url ? (
                                 <img src={post.image_url} alt="Event" className="w-full h-full object-cover border border-secondary rounded-lg transition-transform duration-200 hover:scale-125" />
                             ) : (
                                 <p className="text-white">No image available</p>
                             )}
                         </div>
-                        <div className="flex flex-col ml-6 space-y-4">
-                            <div className="flex flex-row gap-2">
-                                <img className="w-10 h-10 rounded-full bg-gray-800" src={post.club_avatar} alt="Club avatar" />
-                                <h1 className="font-encode-sans text-2xl font-semibold">{post.club_name}</h1>
+                        <div className="flex flex-col items-start justify-between sm:ml-6 sm:pt-0 pt-4  sm:space-y-0 space-y-4">
+                            <div className="flex flex-col space-y-4">
+                                <div className="flex flex-row gap-2">
+                                    <img className="w-10 h-10 rounded-full bg-gray-800" src={post.club_avatar} alt="Club avatar" />
+                                    <h1 className="font-encode-sans text-2xl font-semibold">{post.club_name}</h1>
+                                </div>
+                                <h1 className="font-encode-sans text-xl font-semibold">{post.title}</h1>
+                                <div className="flex flex-row gap-4 items-start">
+                                    <p className="text-xs md:text-base">
+                                        <span className="font-bold">Date: </span>
+                                        {post.event_date}
+                                    </p>
+                                    <p className="text-xs md:text-base">
+                                        <span className="font-bold">Time: </span>
+                                        {post.start_time} - {post.end_time} |
+                                    </p>
+                                    <p className="text-xs md:text-base">
+                                        <span className="font-bold">Location: </span>
+                                        {post.location}
+                                    </p>
+                                </div>
+                                <p className="lg:w-[30rem] text-xs md:text-base">{post.body}</p>
                             </div>
-                            <h1 className="font-encode-sans text-xl font-semibold">{post.title}</h1>
-                            <div className="flex flex-row gap-4 items-start">
-                                <p className="text-xs md:text-base">
-                                    <span className="font-bold">Date: </span>
-                                    {post.date}
-                                </p>
-                                <p className="text-xs md:text-base">
-                                    <span className="font-bold">Time: </span>
-                                    {post.start_time} - {post.end_time} |
-                                </p>
-                                <p className="text-xs md:text-base">
-                                    <span className="font-bold">Location: </span>
-                                    {post.location}
-                                </p>
-                            </div>
-                            <p className="lg:w-[30rem] text-xs md:text-base">{post.body}</p> {/* Adjusted width */}
-                            <div className=" mt-auto">
-                                <p className="text-xs md:text-base italic">
-                                    Posted {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
-                                </p>
-                            </div>
+                            <p className="text-xs md:text-base italic">
+                                Posted {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
+                            </p>
                         </div>
                     </div>
                 ))

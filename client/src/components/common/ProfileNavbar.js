@@ -9,7 +9,9 @@ export default function ProfileNavbar() {
             {
                 user ? (
                     <div className="text-black font-encode-sans">
-                        <p className="text-2xl">Welcome, {user.first_name} {user.last_name}</p>
+                        <p className="text-2xl">Welcome, {user.email}</p>
+                        <p className="text-sm">Role: {user.role}</p>
+                        <p className="text-sm">ID: {user.aud}</p>
                     </div>
                 ) : (
                     <p>Loading...</p>
