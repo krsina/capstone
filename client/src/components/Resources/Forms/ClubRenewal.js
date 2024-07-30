@@ -1,5 +1,5 @@
 import React from 'react'
-import FieldCounter from '../../common/FieldCounter';
+// import FieldCounter from '../../common/FieldCounter';
 import BackButton from '../../common/BackButton';
 import OfficerField from '../../common/OfficerField';
 
@@ -30,17 +30,6 @@ function ClubRenewal() {
                         <p className="text-lg font-light mb-4">Please provide details of the club officers below.</p>
                         <OfficerField />
                     </section>
-
-                    <section>
-                        <h2 className="text-2xl font-bold mb-4">Club Description</h2>
-                        <FieldCounter placeholder="Enter Description here" type="textarea" maxWords={300} />
-                    </section>
-
-                    <section>
-                        <h2 className="text-2xl font-bold mb-4">Mission</h2>
-                        <FieldCounter placeholder="Enter Description here" type="textarea" maxWords={300} />
-                    </section>
-
                     <button className="w-full bg-primary hover:bg-secondary text-white font-bold py-3 rounded focus:outline-none focus:shadow-outline mt-8">
                         Submit
                     </button>

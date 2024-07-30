@@ -21,11 +21,11 @@ function ClubPage() {
     }
 
     return (
-        <div className="bg-gray-100 pt-20 flex flex-col items-center sm:ml-80 ">
+        <div className="bg-gray-100 pt-28 flex flex-col items-center sm:ml-80 h-screen ">
             <BackButton />
 
 
-            <div className="sm:w-4/5 bg-white  rounded-lg shadow-lg h-screen">
+            <div className="sm:w-4/5 bg-white  rounded-lg shadow-lg ">
                 <div className="bg-secondary w-full rounded-t-lg h-20 flex items-center justify-center text-white text-4xl">Club Page</div>
                 <div className="mx-12">
                     <h1 className="text-black">{club.name}</h1>

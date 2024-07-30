@@ -8,7 +8,7 @@ export default function Organizations() {
     const { clubs } = useClubServices(null, page, limit);
 
     if (!clubs || clubs.length === 0) {
-        return <div>Loading...</div>; // Or a more sophisticated loading indicator
+        return <div className="justify-center items-center text-center ">Loading...</div>; // Or a more sophisticated loading indicator
     }
 
     const handleNextPage = () => {

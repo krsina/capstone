@@ -42,7 +42,8 @@ const OfficerField = () => {
     return (
         <div className="flex-col flex gap-6">
             {officers.map((officer, index) => (
-                <div className="flex flex-col space-y-4">
+                // Add Unique Key to the parent div
+                <div className="flex flex-col space-y-4" key={index}>
                     <div key={index} className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-12 h-auto md:h-12">
                         <div>
                             <input

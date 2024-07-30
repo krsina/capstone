@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function FieldCounter({ placeholder, type = 'text', maxChar = 300, className = '', textareaClassName = '', onChange }) {
-    const [value, setValue] = useState('');
+function FieldCounter({ name, placeholder, type = 'text', maxChar = 300, className = '', textareaClassName = '', value, onChange }) {
     const charCount = value.length;
 
     const handleChange = (e) => {
-        // If the number of characters is less than or equal to the maximum number of characters, set the value
         if (e.target.value.length <= maxChar) {
-            // Set the value
-            setValue(e.target.value);
-            // Call the onChange prop if provided
             if (onChange) {
                 onChange(e);
             }
@@ -20,6 +15,7 @@ function FieldCounter({ placeholder, type = 'text', maxChar = 300, className = '
         <div className={`relative ${className}`}>
             {type === 'textarea' ? (
                 <textarea
+                    name={name}
                     placeholder={placeholder}
                     value={value}
                     onChange={handleChange}
@@ -28,6 +24,7 @@ function FieldCounter({ placeholder, type = 'text', maxChar = 300, className = '
             ) : (
                 <input
                     type={type}
+                    name={name}
                     placeholder={placeholder}
                     value={value}
                     onChange={handleChange}

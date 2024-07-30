@@ -4,17 +4,21 @@ import { v4 as uuidv4 } from "uuid";
 import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useAllClubs } from '../../../services/clubServices'
 
 
 function CreatePostModal({ isOpen, closeModal }) {
-    const [image, setImage] = useState(null);
-    const [error, setError] = useState("");
-    const [event_date, setEventDate] = useState("");
-    const [event_start, setEventStart] = useState("");
-    const [event_end, setEventEnd] = useState("");
-    const [imageFile, setImageFile] = useState(null); // Use state to manage imageFile
-    const uuid = uuidv4();
-    const club_id = "1"; // Replace with actual club ID
+    const { clubs } = useAllClubs()
+
+    const [image, setImage] = useState(null)
+    const [error, setError] = useState("")
+    const [event_date, setEventDate] = useState("")
+    const [event_start, setEventStart] = useState("")
+    const [event_end, setEventEnd] = useState("")
+    const [imageFile, setImageFile] = useState(null) // Use state to manage imageFile
+    const uuid = uuidv4()
+    const [selectedClub, setSelectedClub] = useState("")
+    const club_id = selectedClub
     const image_url =
         "https://jpntonekxqgaefpfonsj.supabase.co/storage/v1/object/public/images/" +
         club_id +
@@ -71,11 +75,7 @@ function CreatePostModal({ isOpen, closeModal }) {
         return (
             !error &&
             title.trim() !== "" &&
-            body.trim() !== "" &&
-            location.trim() !== "" &&
-            event_date !== "" &&
-            event_start !== "" &&
-            event_end !== ""
+            body.trim() !== ""
         )
     }
 
@@ -150,6 +150,21 @@ function CreatePostModal({ isOpen, closeModal }) {
                     </button>
                 </div>
                 <div className="w-full mb-8">
+                    <h1 className="font-bold text-gray-800">
+                        Select club to post to
+                    </h1>
+                    <select
+                        name="category_id"
+                        value={selectedClub}
+                        onChange={(e) => setSelectedClub(e.target.value)}
+                        className="items-center justify-center w-full py-2 mb-4"
+                    >
+                        <option value="">Select Club</option>
+                        {clubs.map(cat => (
+                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                        ))}
+                    </select>
+
                     <div className="relative bg-gray-100 border border-dashed border-gray-300 rounded-lg h-60 flex items-center justify-center hover:border-secondary hover:scale-105 duration-500 transition ease-in-out">
                         {image ? (
                             <img
@@ -267,6 +282,7 @@ function CreatePostModal({ isOpen, closeModal }) {
                     <FieldCounter
                         id="description"
                         onChange={(e) => setBody(e.target.value)}
+                        value={body}
                         placeholder="Enter Description"
                         type="textarea"
                         maxChar={1200}

@@ -14,7 +14,7 @@ function Filter({ sortPosts }) {
     const handleMouseLeave = () => setIsOpen(false);
 
     return (
-        <div className="relative flex justify-end ">
+        <div className="relative flex justify-start ">
             <button
                 className="px-4 py-2 bg-secondary text-white rounded-lg flex items-center transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary"
                 onMouseEnter={handleMouseEnter}

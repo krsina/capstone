@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import BackButton from '../../common/BackButton';
 
+
 function AllocationForm() {
     const [items, setItems] = useState([{ itemName: '', detail: '', dollarAmount: '', adminComments: '' }]);
     const [totalAmount, setTotalAmount] = useState(0);
