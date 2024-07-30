@@ -18,6 +18,7 @@ import FinancePage from './pages/FinancePage';
 import AllocationForm from './components/ClubDashboard/Finance/AllocationForm';
 import ExpenditureForm from './components/ClubDashboard/Finance/ExpenditureForm';
 import PrintingForm from './components/ClubDashboard/Finance/PrintingForm';
+import ClubPage from './components/Organizations/club-page/ClubPage';
 
 function App() {
   const location = useLocation();
@@ -39,6 +40,7 @@ function App() {
         <Route path="/finance/AllocationForm" element={<PrivateRoute element={Allocation} />} />
         <Route path="/finance/ExpenditureForm" element={<PrivateRoute element={Expenditure} />} />
         <Route path="/organization" element={<PrivateRoute element={OrganizationPage} />} />
+        <Route path="/organization/:clubName" element={<PrivateRoute element={ClubPage} />} />
         <Route path="/clubdashboard/finance" element={<PrivateRoute element={FinancePage} />} />
         <Route path="/clubdashboard/finance/allocation" element={<PrivateRoute element={AllocationForm} />} />
         <Route path="/clubdashboard/finance/expenditure" element={<PrivateRoute element={ExpenditureForm} />} />

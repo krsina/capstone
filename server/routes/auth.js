@@ -47,6 +47,25 @@ router.post('/signin', async (req, res) => {
     }
 });
 
+router.get('/user', async (req, res) => {
+    try {
+        const user = supabase.auth.user();
+        const { data, error } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', user.id)
+            .single();
+        if (!user) {
+            return res.status(400).json({ error: 'No user found' });
+        }
+        return res.json(user);
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+})
+
 
 
 module.exports = router;
