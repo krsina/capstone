@@ -34,6 +34,14 @@ function CreatePostModal({ isOpen, closeModal }) {
         return date;
     };
 
+    const formatDate = (date) => {
+        return date.toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        });
+    };
+
     const handleOverlayClick = (e) => {
         if (e.target === e.currentTarget) {
             closeModal();
@@ -92,6 +100,7 @@ function CreatePostModal({ isOpen, closeModal }) {
                 start_time: format(parseTimeString(event_start), "h:mm a"),
                 end_time: format(parseTimeString(event_end), "h:mm a"),
                 created_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+                event_date
             }),
         })
             .then((response) => response.text())
@@ -187,7 +196,11 @@ function CreatePostModal({ isOpen, closeModal }) {
                     <div>
                         <DatePicker
                             selected={event_date}
-                            onChange={(date) => setEventDate(date)}
+                            onChange={(date) => {
+                                const formattedDate = formatDate(date);
+                                setEventDate(formattedDate);
+                                console.log(formattedDate);
+                            }}
                             dateFormat="MM/dd/yyyy"
                             className="w-full border border-gray-300 rounded-lg px-4 py-2 text-center hover:border-primary transition duration-300 ease-in-out focus:outline-none focus:ring-2  focus:ring-primary"
                             placeholderText="MM/DD/YYYY"
