@@ -14,35 +14,14 @@ router.get('/getCategories', async (req, res) => {
     res.json(data);
 })
 
-// Adds Advisor to the club
-router.post('/addAdvisor', async (req, res) => {
-    const { first_name, last_name, email, club_id } = req.body;
-    if (!first_name || !last_name || !email || !club_id) {
-        return res.status(400).send('Advisor first name, last name, email, and club_id are required');
-    }
-
-    const { data, error } = await supabase
-        .from('advisors')
-        .insert([{ name, email, club_id, start_date, end_date }])
-    if (error) {
-        console.error('Error message:', error.message)
-        return res.status(500).send('Error adding advisor')
-    }
-    res.status(200).send('Advisor added successfully')
-})
-
-// Adds if only the club is Affiliated with another organization
-router.post('/addAffiliation', async (req, res) => {
-    const { club_id, affiliation_name, affiliati_url, } = req.body;
-
-})
 
 // Used to create new clubs
 router.post('/create', async (req, res) => {
-    const { name, category_id, description, mission, meeting_days, meeting_times, meeting_location } = req.body;
-    if (!name || !description) {
-        return res.status(400).send('Club name and description are required');
-    }
+    const {
+        name, category_id, description, mission, meeting_days, meeting_times, meeting_location,
+        advisor_first_name, advisor_last_name, advisor_email, // Advisor information
+        affiliation_name, affiliation_url // Affiliation information
+    } = req.body;
 
     // Checking if the category exists
     const { data: categories, error: categoryError } = await supabase
@@ -54,16 +33,43 @@ router.post('/create', async (req, res) => {
         return res.status(500).send('Error fetching categories');
     }
 
+    try {
+        const { data: clubData, error: clubError } = await supabase
+            .from('club')
+            .insert([{ name, description, mission, meeting_days, meeting_times, meeting_location, category_id }])
+            .select()
+            .single();
 
-    const { data, error } = await supabase
-        .from('club')
-        .insert([{ name, description, mission, meeting_days, meeting_times, meeting_location, category_id,  }]); // Also add the current timestamp of when the club was submitted
-    if (error) {
-        console.error('Error message:', error.message);
-        return res.status(500).send('Error creating club');
+        if (clubError) throw clubError;
+
+        const club_id = clubData.id;
+
+        // Insert advisor
+        if (advisor_first_name && advisor_last_name && advisor_email) {
+            const { error: advisorError } = await supabase
+                .from('advisors')
+                .insert([{ first_name: advisor_first_name, last_name: advisor_last_name, email: advisor_email, club_id }]);
+
+            if (advisorError) throw advisorError;
+        }
+
+        // Insert affiliation if only both fields are filled, otherwise skip
+        if (affiliation_name && affiliation_url) {
+            const { error: affiliationError } = await supabase
+                .from('affiliation')
+                .insert([{ affiliation_name, affiliation_url, club_id }]);
+
+            if (affiliationError) throw affiliationError;
+        }
+
+        console.log('Inserted data:', clubData);
+        res.status(200).send('Club, advisor, and affiliation added successfully');
+    } catch (error) {
+        console.error('Transaction error:', error.message);
+        res.status(500).send('Error creating club, advisor, or affiliation');
     }
-    console.log('Inserted data:', data);
-    res.status(200).send('Club created successfully');
+
+
 });
 
 // Used to Delete a club

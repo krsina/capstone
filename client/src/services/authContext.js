@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
             // If the token and user are stored, set the user and isAuthenticated to true
             setIsAuthenticated(true);
             setUser(JSON.parse(storedUser));
+            console.log('User is logged in');
         } else {
             console.log('No user is logged in');
             setIsAuthenticated(false);

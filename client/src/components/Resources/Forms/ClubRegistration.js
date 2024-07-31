@@ -10,6 +10,7 @@ function ClubRegistration() {
     const { registerClub, response, error: registerError, loading: registerLoading } = useRegisterClub();
     const [isAffiliated, setIsAffiliated] = useState('');
 
+
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -17,7 +18,12 @@ function ClubRegistration() {
         meeting_days: '',
         meeting_times: '',
         meeting_location: '',
-        category_id: ''
+        category_id: '',
+        advisor_first_name: '',
+        advisor_last_name: '',
+        advisor_email: '',
+        affiliation_name: '',
+        affiliation_url: ''
     });
 
     // Handles the form input changes
@@ -28,11 +34,35 @@ function ClubRegistration() {
         });
     };
 
-
     // Handles the form submission
     const handleSubmit = (e) => {
+
         e.preventDefault();
+        const submissionData = { ...formData };
+
+        if (isAffiliated === 'no') {
+            submissionData.affiliation_name = '';
+            submissionData.affiliation_url = '';
+        }
+
         registerClub(formData);
+        alert('Club has been registered successfully');
+        // Clear the form
+        setFormData({
+            name: '',
+            description: '',
+            mission: '',
+            meeting_days: '',
+            meeting_times: '',
+            meeting_location: '',
+            category_id: '',
+            advisor_first_name: '',
+            advisor_last_name: '',
+            advisor_email: '',
+            affiliation_name: '',
+            affiliation_url: ''
+        });
+        setIsAffiliated('');
     };
 
     // Handles if the club is affilated
@@ -110,12 +140,19 @@ function ClubRegistration() {
                                         <label className="block text-sm font-medium text-gray-700">Name of Organizations</label>
                                         <input type="text"
                                             placeholder="Name of umbrella Organizations"
-                                            className="mt-1 block w-full border-r border-b border-gray-300 p-4 rounded-md shadow-sm focus:border-primary focus:ring-primary" />
+                                            name="affiliation_name"
+                                            value={formData.affiliation_name}
+                                            onChange={handleChange}
+                                            className="mt-1 block w-full border-r border-b border-gray-300 p-4 rounded-md shadow-sm focus:border-primary focus:ring-primary"
+                                        />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700">Website of Organization</label>
                                         <input type="text"
-                                            placeholder="Name of outside Organizations"
+                                            placeholder="Website of Organizations"
+                                            name="affiliation_url"
+                                            value={formData.affiliation_url}
+                                            onChange={handleChange}
                                             className="mt-1 block w-full border-r border-b border-gray-300 p-4 rounded-md shadow-sm focus:border-primary focus:ring-primary" />
                                     </div>
                                 </>
@@ -188,21 +225,35 @@ function ClubRegistration() {
                             </div>
                         </div>
                     </section>
-                    
+
                     <section>
                         <h2 className="text-2xl font-bold mb-4">Advisor</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">First Name</label>
-                                <input type="text" placeholder="First Name" className="mt-1 block w-full border-r border-b border-gray-300 p-4 rounded-md shadow-sm focus:border-primary focus:ring-primary" />
+                                <input type="text"
+                                    placeholder="First Name"
+                                    name="advisor_first_name"
+                                    value={formData.advisor_first_name}
+                                    onChange={handleChange}
+                                    className="mt-1 block w-full border-r border-b border-gray-300 p-4 rounded-md shadow-sm focus:border-primary focus:ring-primary" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">Last Name</label>
-                                <input type="text" placeholder="Last Name" className="mt-1 block w-full border-r border-b border-gray-300 p-4 rounded-md shadow-sm focus:border-primary focus:ring-primary" />
+                                <input type="text"
+                                    name="advisor_last_name"
+                                    value={formData.advisor_last_name}
+                                    onChange={handleChange}
+                                    placeholder="Last Name"
+                                    className="mt-1 block w-full border-r border-b border-gray-300 p-4 rounded-md shadow-sm focus:border-primary focus:ring-primary" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">Advisor Email</label>
-                                <input type="text" placeholder="Advisor Email" className="mt-1 block w-full border-r border-b border-gray-300 p-4 rounded-md shadow-sm focus:border-primary focus:ring-primary" />
+                                <input type="text" placeholder="Advisor Email"
+                                    name="advisor_email"
+                                    value={formData.advisor_email}
+                                    onChange={handleChange}
+                                    className="mt-1 block w-full border-r border-b border-gray-300 p-4 rounded-md shadow-sm focus:border-primary focus:ring-primary" />
                             </div>
                         </div>
                     </section>

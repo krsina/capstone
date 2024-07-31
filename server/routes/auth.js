@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const supabase = require('../supabaseClient');
 
-
 router.post('/signup', async (req, res) => {
     // Extract the user details from the request body
     const { studentNumber, email, password, firstName, lastName } = req.body;
@@ -22,7 +21,7 @@ router.post('/signup', async (req, res) => {
     const { data: user, error: userError } = await supabase
         // Select from Users table
         .from('users')
-        .insert([{ id: userId, firstname: firstName, lastname: lastName, role: studentNumber }]);
+        .insert([{ id: userId, firstname: firstName, lastname: lastName, role: 1 }]); // predefine the role as 1 for Student
 
     if (userError) {
         return res.status(400).json({ error: userError.message });
@@ -46,6 +45,8 @@ router.post('/signin', async (req, res) => {
         return res.status(500).json({ message: 'Internal server error' });
     }
 });
+
+
 
 
 

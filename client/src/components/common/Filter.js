@@ -25,7 +25,7 @@ function Filter({ sortPosts }) {
             </button>
             {isOpen && (
                 <div
-                    className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg duration-300 ease-in-out "
+                    className="absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg duration-300 ease-in-out "
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                 >
@@ -36,7 +36,7 @@ function Filter({ sortPosts }) {
                             setIsOpen(false);
                         }}
                     >
-                        <FaArrowDown className="mr-2" />
+                        <FaArrowUp className="mr-2" />
                         Newest First
                     </button>
                     <button
@@ -46,7 +46,7 @@ function Filter({ sortPosts }) {
                             setIsOpen(false);
                         }}
                     >
-                        <FaArrowUp className="mr-2" />
+                        <FaArrowDown className="mr-2" />
                         Oldest First
                     </button>
                 </div>

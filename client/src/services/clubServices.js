@@ -26,6 +26,8 @@ export function useRegisterClub() {
     return { registerClub, response, error, loading };
 }
 
+
+
 // Custom hook for fetching specifically a club
 function useClubServices(clubName = null, page = 1, limit = 8) {
     const [clubs, setClubs] = useState([]); // Initialize clubs as an empty array (this is for all clubs)
