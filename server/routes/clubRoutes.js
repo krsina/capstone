@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const supabase = require('../supabaseClient');
 
+
 // Return all categories for clubs used for the dropdown menu in the create club form
 router.get('/getCategories', async (req, res) => {
     const { data, error } = await supabase
@@ -13,7 +14,6 @@ router.get('/getCategories', async (req, res) => {
     }
     res.json(data);
 })
-
 
 // Used to create new clubs
 router.post('/create', async (req, res) => {

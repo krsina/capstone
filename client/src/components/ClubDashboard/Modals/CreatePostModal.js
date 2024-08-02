@@ -82,7 +82,7 @@ function CreatePostModal({ isOpen, closeModal }) {
     // Function that validates the form and sends the data to the server
     const handlePost = (event) => {
         event.preventDefault(); // Prevent form from causing a page refresh
-        const imageData = new FormData();
+        const imageData = new FormData(); 
         imageData.append('file', imageFile);
         imageData.append('club_id', club_id);
         imageData.append('uuid', uuid);

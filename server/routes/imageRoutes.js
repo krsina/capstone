@@ -35,4 +35,9 @@ router.post('/', upload.single('file'), async (req, res) => {
     res.send('File uploaded successfully to Supabase.');
 });
 
+// Used to save the clubs images for their profile 
+router.post('/clubProfileImage') , upload.single('file'), async (req, res) => {
+    
+}
+
 module.exports = router;

@@ -13,21 +13,29 @@ router.post('/signup', async (req, res) => {
     // If there is an error, return the error message
     if (error) return res.status(400).json({ error: error.message });
 
+    console.log("User Auth Success");
 
     // If no error, extract the user id from the data object and assign it to the userId variable
     const userId = data.user.id;
 
-    // Once the user is signed up, insert the user details into the users table
-    const { data: user, error: userError } = await supabase
-        // Select from Users table
-        .from('users')
-        .insert([{ id: userId, firstname: firstName, lastname: lastName, role: 1 }]); // predefine the role as 1 for Student
+    try {
+        console.log("User ID: ", userId);
+        console.log("Trying to insert user details into the users")
+        // Once the user is signed up, insert the user details into the users table
+        const { data: user, error: userError } = await supabase
+            // Select from Users table
+            .from('users')
+            .insert([{ id: userId, firstname: firstName, lastname: lastName, role: 1 }]); // predefine the role as 1 for Student
 
-    if (userError) {
-        return res.status(400).json({ error: userError.message });
+        if (userError) {
+            return res.status(400).json({ error: userError.message });
+        }
+        console.log("User Details Inserted");
+        res.json(data);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal server error' });
     }
-
-    res.json(data);
 })
 
 router.post('/signin', async (req, res) => {
@@ -38,7 +46,7 @@ router.post('/signin', async (req, res) => {
         if (error) {
             return res.status(400).json({ error: error.message });
         }
-
+        console.log("User Auth Success");
         return res.json(data);
     } catch (err) {
         console.error(err);
@@ -46,9 +54,29 @@ router.post('/signin', async (req, res) => {
     }
 });
 
+// Router to return the user details
+router.get('/user', async (req, res) => {
+    try {
+        // Assume the user ID is sent as a query parameter
+        const { userId } = req.query
 
+        // Fetch user details from the users table
+        const { data: user, error } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', userId)
+            .single()
+        if (error) {
+            return res.status(400).json({ error: error.message })
+        }
 
-
+        console.log("User Details: ", user);
+        res.json(user)
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ message: 'Internal server error' })
+    }
+})
 
 
 module.exports = router;
