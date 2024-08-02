@@ -13,9 +13,7 @@ export default function ProfileNavbar() {
                 .then((data) => setUserDetails(data))
                 .catch((error) => console.error(error));
         }
-    }
-        , [user]);
-
+    }, [user]);
 
     return (
         <div className="absolute top-0 right-0 p-6 mr-4">
@@ -25,14 +23,17 @@ export default function ProfileNavbar() {
                         {
                             userDetails && (
                                 <div className="flex flex-row items-center space-x-2" >
-                                    <img className="w-10 h-10 rounded-full bg-gray-800" src={userDetails.user_image} alt="User Avatar" />
+                                    <NavLink
+                                        to={`/${userDetails.id}`}
+                                    >
+                                        <img className="w-10 h-10 rounded-full bg-gray-800" src={userDetails.user_image} alt="User Avatar" />
+                                    </NavLink>
                                     <div className="flex flex-col ont-encode-sans">
                                         <NavLink
-                                            to={`/profile/${userDetails.id}`}
+                                            to={`/${userDetails.id}`}
                                         >
                                             <p className="text-xl">{userDetails.firstname} {userDetails.lastname}</p>
                                         </NavLink>
-
                                         <p className="text-primary">{userDetails.year}</p>
                                     </div>
                                 </div>
@@ -43,6 +44,6 @@ export default function ProfileNavbar() {
                     <p>Loading...</p>
                 )
             }
-        </div>
+        </div >
     );
 }
