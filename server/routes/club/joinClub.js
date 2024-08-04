@@ -67,6 +67,23 @@ router.delete('/leave', async (req, res) => {
     }
 });
 
+// Returns the users club role in a club
+router.get('/role', async (req, res) => {
+    const { club_id, user_id } = req.query;
+    try {
+        const { data, error } = await supabase
+            .from('club_membership')
+            .select('role_id')
+            .eq('club_id', club_id)
+            .eq('user_id', user_id);
+        if (error) throw error;
+        res.json(data);
+    } catch (error) {
+        console.error('Error getting role:', error.message);
+        res.status(500).send('Error getting role');
+    }
+})
+
 
 router.up
 

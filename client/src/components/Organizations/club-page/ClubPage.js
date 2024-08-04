@@ -114,13 +114,13 @@ function ClubPage() {
     }
 
     return (
-        <div className="bg-gray-100 pt-28 flex flex-col items-center sm:ml-80 h-screen">
+        <div className=" pt-28 flex flex-col items-center sm:ml-80 h-screen px-4">
             <BackButton />
-            <div className="sm:w-4/5 bg-white rounded-lg shadow-lg">
-                <div className="bg-secondary w-full rounded-t-lg flex flex-row justify-end py-2 px-4">
+            <div className="sm:w-4/5 w-full  bg-gray-100 rounded-lg shadow-lg ">
+                <div className="bg-secondary w-full rounded-t-lg flex flex-row justify-end py-2 px-4 h-28">
                     <div className="flex flex-col">
                         {user && (
-                            <div className="flex justify-center mt-4">
+                            <div className="flex justify-center mt-4 mr-2">
                                 {isMember ? (
                                     <button
                                         className="bg-red-500 text-white px-2 py-1 rounded-lg"
@@ -145,13 +145,46 @@ function ClubPage() {
                         )}
                     </div>
                 </div>
-                
-                <div className="mx-12">
+                <div className="mx-14 font-open-sans">
+                    <img src={club.image_url} alt={club.name} className="absolute top-40 w-32 h-32 rounded-full bg-gray-300 border-white border-2" />
+                </div>
+                <div className="flex flex-row p-6 ">
+                    <div className="flex flex-col w-1/4 items-center bg-grey mt-12 space-y-8 text-center">
+                        <div>
+                            <p className="text-2xl font-semibold text-secondary mr-28"> {club.name} </p>
+                            <p className="text-xl font-light text-primary mr-28"> {club.category_id} </p>
+                        </div>
+                        <div >
+                            <p className="text-2xl font-semibold text-secondary mr-28"> Meeting Days </p>
+                            <p className="text-xl font-light text-primary mr-28"> {club.category_id} </p>
+                        </div>
+                        <div >
+                            <p className="text-2xl font-semibold text-secondary mr-28"> Meeting times </p>
+                            <p className="text-xl font-light text-primary mr-28"> {club.meeting_times} </p>
+                        </div>
+                        <div >
+                            <p className="text-2xl font-semibold text-secondary mr-20"> Meeting Location </p>
+                            <p className="text-xl font-light text-primary mr-28"> {club.meeting_location} </p>
+                        </div>
 
-
+                    </div>
+                    <div className="flex flex-col w-2/3 px-4 mt-4 font-open-sans space-y-2">
+                        <div className="flex flex-row justify-between text-2xl  text-secondary">
+                            <h1>About us</h1>
+                            <h1>Documents</h1>
+                            <h1>Documents</h1>
+                            <h1>Documents</h1>
+                        </div>
+                        <div className="bg-white rounded-lg shadow-md p-8">
+                            <h1 className="text-primary text-2xl font-semibold">About us</h1>
+                            <p>{club.description}</p>
+                            <h1 className="text-primary text-2xl pt-4 font-semibold">Mission us</h1>
+                            <p>{club.mission}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

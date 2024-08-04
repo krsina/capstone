@@ -4,6 +4,22 @@ const supabase = require('../../supabaseClient');
 
 // Return all categories for clubs used for the dropdown menu in the create club form
 router.get('/getCategories', async (req, res) => {
+    const { club_id } = req.query; // Get club_id from query parameters
+    // This returns the categories for a specific club if club_id is provided
+    if (club_id) {
+        const { data, error } = await supabase
+            .from('club_category')
+            .select('category_id, category:category_id (id, name)')
+            .eq('club_id', club_id)
+            .single();
+
+        if (error) {
+            console.error('Error message:', error.message);
+            return res.status(500).send('Error fetching categories');
+        }
+        return res.json(data);
+    }
+
     const { data, error } = await supabase
         .from('club_category')
         .select('*')
