@@ -1,44 +1,6 @@
 import React, { useState } from 'react';
 
-const OfficerField = () => {
-    const [officers, setOfficers] = useState(Array.from({ length: 5 }, () => ({ email: '', name: '', position: '' })));
-    const [emailErrors, setEmailErrors] = useState(Array.from({ length: 5 }, () => false));
-
-    const addOfficer = () => {
-        setOfficers([...officers, { email: '', name: '', position: '' }]);
-        setEmailErrors([...emailErrors, false]);
-    };
-
-    const removeOfficer = (index) => {
-        setOfficers(officers.filter((_, i) => i !== index));
-        setEmailErrors(emailErrors.filter((_, i) => i !== index));
-    };
-
-    const handleOfficerChange = (index, field, value) => {
-        const newOfficers = officers.map((officer, i) => {
-            if (i === index) {
-                return {
-                    ...officer,
-                    [field]: value,
-                };
-            }
-            return officer;
-        });
-
-        // Validates the email as UW email
-        if (field === 'email') {
-            const newEmailErrors = emailErrors.map((error, i) => {
-                if (i === index) {
-                    return !value.includes('@uw.edu');
-                }
-                return error;
-            });
-            setEmailErrors(newEmailErrors);
-        }
-
-        setOfficers(newOfficers);
-    };
-
+const OfficerField = ({ officers, setOfficers, addOfficer, removeOfficer, handleOfficerChange, emailErrors}) => {
     return (
         <div className="flex-col flex gap-6">
             {officers.map((officer, index) => (
@@ -58,10 +20,17 @@ const OfficerField = () => {
 
                         <input
                             type="text"
-                            placeholder="Name"
+                            placeholder="First Name"
                             className="border-r border-b border-gray-300 p-2 rounded focus:outline-none focus:border-primary hover:border-primary"
-                            value={officer.name}
-                            onChange={(e) => handleOfficerChange(index, 'name', e.target.value)}
+                            value={officer.first_name}
+                            onChange={(e) => handleOfficerChange(index, 'first_name', e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Last Name"
+                            className="border-r border-b border-gray-300 p-2 rounded focus:outline-none focus:border-primary hover:border-primary"
+                            value={officer.last_name}
+                            onChange={(e) => handleOfficerChange(index, 'last_name', e.target.value)}
                         />
                         <input
                             type="text"
