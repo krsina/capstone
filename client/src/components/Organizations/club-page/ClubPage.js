@@ -4,7 +4,7 @@ import useClubServices from '../../../services/clubServices';
 import { useParams } from 'react-router-dom';
 import { joinClub, leaveClub, fetchUserClubs } from '../../../services/clubMemberServices';
 import { useAuth } from '../../../services/authContext';
-import { fetchClubMembers } from '../../../services/clubInfo';
+import { fetchClubMembers, fetchClubOfficerCount, fetchClubMemberCount } from '../../../services/clubInfo';
 
 function ClubPage() {
     const { clubName } = useParams();
@@ -16,6 +16,8 @@ function ClubPage() {
     const [activeTab, setActiveTab] = useState('about us');
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
     const [clubMembers, setClubMembers] = useState([]);
+    const [officerCount, setOfficerCount] = useState(0);
+    const [memberCount, setMemberCount] = useState(0);
 
     // Use effect to check if the user is a member of the club
     useEffect(() => {
@@ -38,6 +40,23 @@ function ClubPage() {
         }
     }, [user, club]);
 
+    // Use effect to fetch the officer count and member count
+    useEffect(() => {
+        const getClubCounts = async () => {
+            if (!club) return;
+            try {
+                const officerCountData = await fetchClubOfficerCount(club.id);
+                const memberCountData = await fetchClubMemberCount(club.id);
+                setOfficerCount(officerCountData.count);
+                setMemberCount(memberCountData.count);
+            } catch (error) {
+                console.error('Error fetching club counts:', error);
+            }
+        };
+
+        getClubCounts();
+    }, [club]);
+
     // Function to join a club
     const handleJoinClub = async () => {
         setIsButtonDisabled(true);
@@ -59,9 +78,18 @@ function ClubPage() {
         }
     };
 
-
     const handleLeaveClub = async () => {
         setIsButtonDisabled(true);
+        const userClub = sessionStorage.getItem('userClubs');
+        if (userClub) {
+            const userClubs = JSON.parse(userClub);
+            const userClubData = userClubs.find(userClub => userClub.id === club.id);
+            if (userClubData && userClubData.role.name !== 'Member') {
+                setActionStatus({ success: false, message: `You cannot leave the club as a ${userClubData.role.name}.` });
+                setIsButtonDisabled(false); // Re-enable button
+                return;
+            }
+        }
         try {
             const result = await leaveClub(club.id, user.id);
             console.log(club.id, user.id); // Log the club id and user id
@@ -86,28 +114,37 @@ function ClubPage() {
 
     const updateUserClubsSessionStorage = (club, isJoining) => {
         const storedUserClubs = sessionStorage.getItem('userClubs');
-        console.log('Before update:', JSON.parse(storedUserClubs)); // Log before update
-        if (storedUserClubs) {
-            const userClubs = JSON.parse(storedUserClubs);
-            if (isJoining) {
-                userClubs.push(club);
-                const index = userClubs.findIndex(userClub => userClub.id === club.id);
-                console.log('Index:', index); // Log the index
+        let userClubs = storedUserClubs ? JSON.parse(storedUserClubs) : [];
+
+        console.log('Before update:', userClubs); // Log before update
+
+        if (isJoining) {
+            userClubs.push(club);
+            console.log(`Joining club: ${club.name}`);
+        } else {
+            const index = userClubs.findIndex(userClub => userClub.id === club.id);
+            if (index !== -1) {
+                userClubs.splice(index, 1);
+                console.log(`Leaving club: ${club.name}`);
             } else {
-                const index = userClubs.findIndex(userClub => userClub.id === club.id);
-                console.log('Index:', index); // Log the index
-                userClubs.splice(index, 1)
+                console.error(`Club with id ${club.id} not found in user clubs.`);
             }
-            sessionStorage.setItem('userClubs', JSON.stringify(userClubs));
         }
+
+        sessionStorage.setItem('userClubs', JSON.stringify(userClubs));
         console.log('After update:', JSON.parse(sessionStorage.getItem('userClubs'))); // Log after update
     };
-
     // Fetches all the clubs members and their roles
     useEffect(() => {
         if (activeTab === 'members' && club) {
             const getClubMembers = async () => {
                 const members = await fetchClubMembers(club.id);
+                // If empty array return no members
+                if (members.length === 0) {
+                    console.log('No members found');
+                    setClubMembers([]);
+                    return;
+                }
                 if (Array.isArray(members)) {
                     setClubMembers(members);
                 } else {
@@ -118,6 +155,8 @@ function ClubPage() {
             getClubMembers();
         }
     }, [activeTab, club]);
+
+
 
 
     // Use effect for action status (sets time limit for the message to disappear)
@@ -146,39 +185,46 @@ function ClubPage() {
                     <div>
                         <h1 className="text-primary text-2xl font-semibold">Members</h1>
                         <div className="flex flex-col pt-6 ">
-                            <div className="flex flex-row justify-between items-center text-center">
-                                <h1 className="text-secondary text-lg font-semibold">Club Members</h1>
-                                <h1 className="text-secondary text-lg font-semibold">Roles</h1>
+                            <div className="flex flex-row justify-between px-8 pb-1 text-2xl text-secondary font-open-sans ">
+                                <h1>Name</h1>
+                                <h1>Roles</h1>
                             </div>
-                            <hr></hr>
-                            {clubMembers.map((member, index) => (
-                                <div
-                                    className="flex flex-row space-x-4 space-y-4 justify-between"
-                                    key={index}>
-                                    <div className="flex flex-row space-x-2">
-                                        <p>{member.users.firstname}</p>
-                                        <p>{member.users.lastname}</p>
-                                    </div>
-                                    <p>{member.roles.name}</p>
+                            <hr className="pb-1 border-secondary" />
+                            {clubMembers.length === 0 ? (
+                                <div className="flex flex-row space-x-4 space-y-4 justify-between">
+                                    <p>No members found</p>
                                 </div>
-                            ))}
+                            ) : (
+                                clubMembers.map((member, index) => (
+                                    <div
+                                        className="flex flex-row space-x-4 space-y-2 justify-between px-8"
+                                        key={index}
+                                    >
+                                        <div className="flex flex-row space-x-2 font-open sans text-lg text-center justify-center items-center ">
+                                            <p>{member.users.firstname}</p>
+                                            <p>{member.users.lastname}</p>
+                                        </div>
+                                        <p>{member.roles.name}</p>
+                                    </div>
+                                ))
+                            )}
                         </div>
                     </div>
                 );
             case 'contact us':
                 return (
-                    <div>
-                        <h1 className="text-primary text-2xl font-semibold">Contact Us</h1>
-                        <p className="font-open sans fon-tlight text-lg">Fill the form below to email us! </p>
+                    <div className="font-open-sans">
+                        <h1 className="text-primary text-3xl font-semibold">Contact Us</h1>
+                        <p className=" sans fon-tlight text-lg">Fill the form below to email us! </p>
                     </div>
                 );
             default:
                 return (
-                    <div>
-                        <h1 className="text-primary text-2xl font-semibold">About us</h1>
-                        <p>{club.description}</p>
-                        <h1 className="text-primary text-2xl pt-4 font-semibold">Mission us</h1>
-                        <p>{club.mission}</p>
+                    <div className="font-open-sans">
+                        <h1 className="text-primary text-3xl font-semibold">About us</h1>
+                        <p className="text-lg">{club.description}</p>
+                        <h1 className="text-primary text-3xl pt-4 font-semibold">Mission</h1>
+                        <p className="text-lg">{club.mission}</p>
                     </div>
                 );
 
@@ -198,13 +244,29 @@ function ClubPage() {
         return <div>No club found with name: {decodedClubName}</div>;
     }
 
-
+    const firstAdvisor = club.advisors && club.advisors[0] ? `${club.advisors[0].first_name} ${club.advisors[0].last_name}` : 'N/A';
+    const firstAffiliation = club.affiliation && club.affiliation[0] ? club.affiliation[0].affiliation_name : 'N/A';
+    const affilationLink = club.affiliation && club.affiliation[0] ? club.affiliation[0].affiliation_url : 'N/A';
 
     return (
-        <div className=" pt-28 flex flex-col items-center sm:ml-80 h-screen px-4">
+        <div className=" pt-28 flex flex-col items-center sm:ml-80 h-screen px-4 pb-12">
             <BackButton />
-            <div className="sm:w-4/5 w-full  bg-gray-100 rounded-lg shadow-lg ">
-                <div className="bg-secondary w-full rounded-t-lg flex flex-row justify-end py-2 px-4 h-28">
+            <div className="sm:w-4/5 w-full  bg-gray-100 rounded-lg shadow-lg h-screen">
+                <div className="bg-secondary justify-between w-full rounded-t-lg flex flex-row py-2 px-4 h-28">
+                    <div className="pt-12 pl-48 flex flex-row space-x-10">
+                        <div className=" text-white font-open sans flex flex-col">
+                            <h1 className="text-xl text-center">Posts</h1>
+                            <h1>Total post</h1>
+                        </div>
+                        <div className=" text-white font-open sans flex flex-col">
+                            <h1 className="text-xl text-center">{officerCount}</h1>
+                            <h1>Officers</h1>
+                        </div>
+                        <div className=" text-white font-open sans flex flex-col">
+                            <h1 className="text-xl text-center">{memberCount}</h1>
+                            <h1>Total Members</h1>
+                        </div>
+                    </div>
                     <div className="flex flex-col">
                         {user && (
                             <div className="flex justify-center mt-4 mr-2">
@@ -228,7 +290,7 @@ function ClubPage() {
                             </div>
                         )}
                         {actionStatus && (
-                            <p className={`${actionStatus.success ? 'text-green-500 absolute  mt-12 right-32' : 'text-red-500 absolute'}`}>
+                            <p className={`${actionStatus.success ? 'text-green-500 absolute  mt-12 right-32' : 'text-red-500 absolute mt-12 right-32'}`}>
                                 {actionStatus.message}
                             </p>
                         )}
@@ -255,14 +317,28 @@ function ClubPage() {
                             <p className="text-2xl font-semibold text-secondary "> Meeting Location </p>
                             <p className="text-xl font-light text-primary "> {club.meeting_location} </p>
                         </div>
+                        <div >
+                            <p className="text-2xl font-semibold text-secondary "> Advisor </p>
+                            <p className="text-xl font-light text-primary "> {firstAdvisor} </p>
+                        </div>
+                        <div >
+                            <p className="text-2xl font-semibold text-secondary "> Affilation </p>
+                            <a href={affilationLink.startsWith('http') ? affilationLink : `https://${affilationLink}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-xl font-light text-primary hover:underline">
+                                <p className="text-xl font-light text-primary "> {firstAffiliation} </p>
+                            </a>
+
+                        </div>
 
                     </div>
                     <div className="flex flex-col px-4 mt-4 font-open-sans space-y-2 w-full">
-                        <div className="flex flex-row justify-between text-2xl  text-secondary">
-                            <h1 onClick={() => setActiveTab('about us')} className="cursor-pointer">About us</h1>
-                            <h1 onClick={() => setActiveTab('documents')} className="cursor-pointer">Documents</h1>
-                            <h1 onClick={() => setActiveTab('members')} className="cursor-pointer">Members</h1>
-                            <h1 onClick={() => setActiveTab('contact us')} className="cursor-pointer">Contact Us</h1>
+                        <div className="flex flex-row justify-between text-2xl  text-secondary px-8">
+                            <h1 onClick={() => setActiveTab('about us')} className="cursor-pointer hover:text-primary transition duration-300">About us</h1>
+                            <h1 onClick={() => setActiveTab('documents')} className="cursor-pointer hover:text-primary transition duration-30">Documents</h1>
+                            <h1 onClick={() => setActiveTab('members')} className="cursor-pointer hover:text-primary transition duration-30">Members</h1>
+                            <h1 onClick={() => setActiveTab('contact us')} className="cursor-pointer hover:text-primary transition duration-30">Contact Us</h1>
                         </div>
                         <div className="bg-white rounded-lg shadow-md p-8">
                             {renderTabContents(activeTab)}

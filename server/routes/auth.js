@@ -23,7 +23,14 @@ router.post('/signup', async (req, res) => {
         const { data: user, error: userError } = await supabase
             // Select from Users table
             .from('users')
-            .insert([{ id: userId, firstname: firstName, lastname: lastName, role: 1, email: email }]); // predefine the role as 1 for Student
+            .insert([{
+                id: userId,
+                firstname: firstName,
+                lastname: lastName,
+                role: 1, // predefined role as 1 for Student
+                email: email,
+                student_number: studentNumber,
+            }]);
 
         if (userError) {
             return res.status(400).json({ error: userError.message });

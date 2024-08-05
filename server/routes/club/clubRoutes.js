@@ -142,8 +142,31 @@ router.get('/getClubByName/:name', async (req, res) => {
     }
     const { data, error } = await supabase
         .from('club')
-        .select('*')
-        .eq('name', name);
+        .select(
+            `
+            id,
+            name,
+            description,
+            mission,
+            meeting_days,
+            meeting_times,
+            meeting_location,
+            club_category(
+                id,
+                category_name
+            ),
+            advisors (
+                first_name,
+                last_name,
+                email
+            ),
+            affiliation (
+                affiliation_name,
+                affiliation_url
+            )
+            `
+        )
+        .eq('name', name,);
     if (error) {
         console.error('Error message:', error.message);
         return res.status(500).send('Error fetching club');

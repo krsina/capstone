@@ -21,31 +21,56 @@ router.post('/join', async (req, res) => {
 })
 
 // Returns the users clubs that they are a member of
-router.get('/getClubs', async (req, res) => {
+router.get('/getUserClubs', async (req, res) => {
     const { user_id } = req.query;
+
+    if (!user_id) {
+        return res.status(400).json({ error: 'User ID is required' });
+    }
+
     try {
-        const { data, error } = await supabase
+        // Fetch the club memberships along with the role information
+        const { data: memberships, error: membershipError } = await supabase
             .from('club_membership')
-            .select('club_id')
-            .eq('user_id', user_id)
-        if (error) throw error;
+            .select(`
+                club_id,
+                role:role_id (name)
+            `)
+            .eq('user_id', user_id);
 
-        if (data.length === 0) return res.json([]); // If the user is not a member of any clubs, return an empty array
+        if (membershipError) throw membershipError;
 
-        const clubIds = data.map((club) => club.club_id); // Extracts the club ids from the data
+        if (memberships.length === 0) {
+            return res.json([]); // If the user is not a member of any clubs, return an empty array
+        }
 
-        const { data: clubs, error: clubError } = await supabase // Gets the club details from the club ids
+        // Extract the club IDs from the memberships
+        const clubIds = memberships.map((membership) => membership.club_id);
+
+        // Fetch the club details using the extracted club IDs
+        const { data: clubs, error: clubError } = await supabase
             .from('club')
-            .select('*')
-            .in('id', clubIds)
+            .select('id, name')
+            .in('id', clubIds);
+
         if (clubError) throw clubError;
 
-        res.json(clubs); // Returns the clubs
+        // Combine the club details with the role information
+        const result = clubs.map((club) => {
+            const membership = memberships.find((m) => m.club_id === club.id);
+            return {
+                id: club.id,
+                name: club.name,
+                role: membership.role
+            };
+        });
+
+        res.json(result); // Returns the combined club details with roles
     } catch (error) {
         console.error('Error getting clubs:', error.message);
         res.status(500).send('Error getting clubs');
     }
-})
+});
 
 // Allows users to leave clubs
 router.delete('/leave', async (req, res) => {

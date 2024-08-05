@@ -5,7 +5,6 @@ const API_URL = 'http://localhost:3001/club/membership'; // API endpoint for clu
 export const joinClub = async (club_id, user_id) => { // takes in the club id and user id
     try {
         const response = await axios.post(`${API_URL}/join`, { club_id, user_id });
-
         return response.data;
     } catch (error) {
         return error.response ? error.response.data : { error: 'Joining club failed' };
@@ -14,7 +13,6 @@ export const joinClub = async (club_id, user_id) => { // takes in the club id an
 
 // Allows users to leave clubs
 export const leaveClub = async (club_id, user_id) => { // takes in the club id and user id
-
     if (!club_id || !user_id) {
         return { success: false, error: 'Invalid club or user id' };
     }
@@ -32,7 +30,7 @@ export const leaveClub = async (club_id, user_id) => { // takes in the club id a
 // Returns all the clubs that the user is a member of
 export const fetchUserClubs = async (user_id) => {
     try {
-        const response = await axios.get(`${API_URL}/getClubs`, { params: { user_id } });
+        const response = await axios.get(`${API_URL}/getUserClubs`, { params: { user_id } });
         return response.data;
     } catch (error) {
         return error.response ? error.response.data : { error: 'Fetching clubs failed' };

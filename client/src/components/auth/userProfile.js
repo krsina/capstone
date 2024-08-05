@@ -100,6 +100,12 @@ function Profile() {
                                             <NavLink to={`/organization/${club.name}`}>
                                                 <h1 className="text-xl hover:text-primary">{club.name}</h1>
                                             </NavLink>
+                                            <div className="flex flex-row items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-secondary" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fillRule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 1a7 7 0 110 14 7 7 0 010-14zm0 4a3 3 0 100 6 3 3 0 000-6zm0 1a2 2 0 110 4 2 2 0 010-4z" clipRule="evenodd" />
+                                                </svg>
+                                                <p className="text-sm ml-2">{club.role.name}</p>
+                                            </div>
                                         </div>
                                     )
                                 })

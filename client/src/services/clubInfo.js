@@ -10,3 +10,23 @@ export const fetchClubMembers = async (club_id) => {
         return error.response ? error.response.data : { error: 'Fetching club members failed' };
     }
 }
+
+// Fetches the officers
+export const fetchClubOfficerCount = async (club_id) => {
+    try {
+        const response = await axios.get(`${API_URL}/officerCount/${club_id}`);
+        return response.data;
+    } catch (error) {
+        return error.response ? error.response.data : { error: 'Fetching club officer count failed' };
+    }
+}
+
+// Fetches the total number of members in a club
+export const fetchClubMemberCount = async (club_id) => {
+    try {
+        const response = await axios.get(`${API_URL}/count/${club_id}`);
+        return response.data;
+    } catch (error) {
+        return error.response ? error.response.data : { error: 'Fetching club member count failed' };
+    }
+}
