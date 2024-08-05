@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:3001/club/membership'; // API endpoint for clu
 export const joinClub = async (club_id, user_id) => { // takes in the club id and user id
     try {
         const response = await axios.post(`${API_URL}/join`, { club_id, user_id });
-        
+
         return response.data;
     } catch (error) {
         return error.response ? error.response.data : { error: 'Joining club failed' };
