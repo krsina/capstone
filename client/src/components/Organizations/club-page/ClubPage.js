@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 import { joinClub, leaveClub, fetchUserClubs } from '../../../services/clubMemberServices';
 import { useAuth } from '../../../services/authContext';
 import { fetchClubMembers, fetchClubOfficerCount, fetchClubMemberCount } from '../../../services/clubInfo';
-import LeaveModal from '../../common/Modals/LeaveModal'
 
 function ClubPage() {
     const { clubName } = useParams();
@@ -19,7 +18,6 @@ function ClubPage() {
     const [clubMembers, setClubMembers] = useState([]);
     const [officerCount, setOfficerCount] = useState(0);
     const [memberCount, setMemberCount] = useState(0);
-    const [leaveModalOpen, setLeaveModalOpen] = useState(false);
 
     // Use effect to check if the user is a member of the club
     useEffect(() => {

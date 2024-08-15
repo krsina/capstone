@@ -5,6 +5,7 @@ import BackButton from '../common/BackButton'
 import EditProfile from './Modals/editProfile';
 import { fetchUserClubs } from '../../services/clubMemberServices';
 import { NavLink } from 'react-router-dom';
+
 function Profile() {
     const [userDetails, setUserDetails] = useState(null);
     const { userName } = useParams(); // Gets the username from the URL

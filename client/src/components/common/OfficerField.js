@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const OfficerField = ({ officers, setOfficers, addOfficer, removeOfficer, handleOfficerChange, emailErrors}) => {
+const OfficerField = ({ officers, setOfficers, addOfficer, removeOfficer, handleOfficerChange, emailErrors }) => {
     return (
         <div className="flex-col flex gap-6">
             {officers.map((officer, index) => (
