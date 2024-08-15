@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { joinClub, leaveClub, fetchUserClubs } from '../../../services/clubMemberServices';
 import { useAuth } from '../../../services/authContext';
 import { fetchClubMembers, fetchClubOfficerCount, fetchClubMemberCount } from '../../../services/clubInfo';
+import LeaveModal from '../../common/Modals/LeaveModal'
 
 function ClubPage() {
     const { clubName } = useParams();
@@ -18,6 +19,7 @@ function ClubPage() {
     const [clubMembers, setClubMembers] = useState([]);
     const [officerCount, setOfficerCount] = useState(0);
     const [memberCount, setMemberCount] = useState(0);
+    const [leaveModalOpen, setLeaveModalOpen] = useState(false);
 
     // Use effect to check if the user is a member of the club
     useEffect(() => {
@@ -78,9 +80,12 @@ function ClubPage() {
         }
     };
 
+    // Function to leave a club
     const handleLeaveClub = async () => {
         setIsButtonDisabled(true);
         const userClub = sessionStorage.getItem('userClubs');
+
+        // Check if the user is an officer or admin of the club, this means 
         if (userClub) {
             const userClubs = JSON.parse(userClub);
             const userClubData = userClubs.find(userClub => userClub.id === club.id);
@@ -90,6 +95,8 @@ function ClubPage() {
                 return;
             }
         }
+
+        // If the user isn't an officer, user can leave the club
         try {
             const result = await leaveClub(club.id, user.id);
             console.log(club.id, user.id); // Log the club id and user id
@@ -272,7 +279,7 @@ function ClubPage() {
                             <div className="flex justify-center mt-4 mr-2">
                                 {isMember ? (
                                     <button
-                                        className="bg-red-500 text-white px-2 py-1 rounded-lg"
+                                        className="bg-red-500 text-white px-2 py-1 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out"
                                         onClick={handleLeaveClub}
                                         disabled={isButtonDisabled}
                                     >
@@ -280,7 +287,7 @@ function ClubPage() {
                                     </button>
                                 ) : (
                                     <button
-                                        className="bg-white text-green-700 px-2 py-1 rounded-lg"
+                                        className="bg-white text-green-700 px-2 py-1 rounded-lg hover:bg-tertiary hover:text-white transiton duration-300 ease-in-out"
                                         onClick={handleJoinClub}
                                         disabled={isButtonDisabled}
                                     >

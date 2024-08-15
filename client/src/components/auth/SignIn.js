@@ -44,14 +44,15 @@ export default function SignIn() {
         <div className="min h-screen flex">
             {/* Sign In Form Left Side */}
             <div className="w-1/2 flex flex-col justify-center px-28 bg-white">
-                <h1 className="text-6xl mb-4">
-                    <span className="text-primary">Welcome</span> to UWB Student Connect
+                <h1 className="text-7xl mb-4 flex flex-col">
+                    <span className="text-primary">Welcome</span>
+                    <span className="text-secondary">to Club Hub</span>
                 </h1>
-                <p className="mb-8">Lorem Ipsum Lorem Ipsum</p>
+                <p className="mb-8 font-open-sans text-2xl font-light">Sign in below!</p>
                 <form className="w-full max-w-sm" onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <input
-                            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${error ? 'border-red-500' : ''}`}
+                            className={`shadow appearance-none leading-tight border rounded w-full p-3  focus:outline-primary ${error ? 'border-red-500' : ''}`}
                             id="email"
                             type="email"
                             placeholder="UW Email"
@@ -63,7 +64,7 @@ export default function SignIn() {
                     </div>
                     <div className="mb-6">
                         <input
-                            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ${error ? 'border-red-500' : ''}`}
+                            className={`shadow appearance-none leading-tight border rounded w-full p-3  focus:outline-primary  ${error ? 'border-red-500' : ''}`}
                             id="password"
                             type="password"
                             placeholder="Password"
@@ -92,9 +93,9 @@ export default function SignIn() {
 
             {/* Sign In Illustration Right Side */}
             <div className="w-1/2 flex items-center justify-center flex-col text-white relative overflow-hidden">
-                <div className="mx-12 z-30">
-                    <h1 className="font-light text-xl p-4">
-                        Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                <div className="z-30 w-3/5">
+                    <h1 className="font-light text-3xl ml-6 mr-32 my-4">
+                        Welcome to the UWB Connect App! Sign in now to start connecting
                     </h1>
                 </div>
                 <img

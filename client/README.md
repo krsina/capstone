@@ -1,1 +1,0 @@
-The Client Folder is responsible for the Front-Facing of our Website, which utilizes React.Js which is a JavaScript Framework that 

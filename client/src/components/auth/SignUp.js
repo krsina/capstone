@@ -70,8 +70,8 @@ export default function SignUp() {
         <div className="min h-screen flex text-secondary">
             {/* Sign In Illustration Left Side */}
             <div className="w-1/2 flex items-center justify-center flex-col text-white relative overflow-hidden">
-                <div className="mx-12 z-30 ">
-                    <h1 className="font-light text-xl p-4">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</h1>
+                <div className="z-30 ">
+                    <h1 className="font-light text-3xl font-encode-sans">Start your  <span className="font-bold ">UW</span> journey here </h1>
                 </div>
                 <img
                     src={imageBG}
@@ -84,6 +84,8 @@ export default function SignUp() {
                     alt="Sign In Illustration"
                     className="w-3/5 h-3/5 relative"
                 />
+                <h1 className="font-light text-2xl font-encode-sans z-30 w-3/5">Discover clubs, attend events, and build connections that last a lifetime.
+                </h1>
             </div>
             {/* Sign Up Right Side*/}
             <div className="w-1/2 flex flex-col justify-center px-32  bg-white ">
@@ -96,7 +98,7 @@ export default function SignUp() {
                     <div className="mb-4">
                         <h1 className="text-secondary font-light mb-1">Student Number</h1>
                         <input
-                            className={`shadow appearance-none border rounded-lg w-full py-3 px-2 leading-tight focus:outline-primary focus:shadow-outline ${studentNumberError ? 'border-red-500' : ''}`}
+                            className={`shadow appearance-none border rounded-lg w-full p-3 leading-tight focus:outline-primary focus:shadow-outline ${studentNumberError ? 'border-red-500' : ''}`}
                             id="studentNumber"
                             type="number"
                             placeholder="Enter 6-Digit Student Number"
@@ -108,7 +110,7 @@ export default function SignUp() {
                     <div className="mb-4">
                         <h1 className="text-secondary font-light mb-1">UW Email</h1>
                         <input
-                            className={`shadow appearance-none border rounded-lg w-full py-3 px-2 leading-tight focus:outline-primary focus:shadow-outline ${emailError ? 'border-red-500' : ''}`}
+                            className={`shadow appearance-none border rounded-lg w-full p-3 leading-tight focus:outline-primary focus:shadow-outline ${emailError ? 'border-red-500' : ''}`}
                             id="uwEmail"
                             type="email"
                             placeholder="Enter UW Email"
@@ -132,7 +134,7 @@ export default function SignUp() {
                         <div>
                             <h1 className="text-secondary font-light mb-1">Last Name</h1>
                             <input
-                                className="shadow appearance-none border rounded-lg w-full py-3 px-2 leading-tight focus:outline-primary focus:shadow-outline"
+                                className="shadow appearance-none border rounded-lg w-full p-3 leading-tight focus:outline-primary focus:shadow-outline"
                                 id="lastName"
                                 type="text"
                                 placeholder="Enter Last Name"
