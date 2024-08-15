@@ -87,6 +87,53 @@ router.post('/create', async (req, res) => {
 
 });
 
+// Insert Club Officer to database
+// PARAMS: club_id, email, name, position
+router.post('/insertOfficer', async (req, res) => {
+    const { club_id, email, first_name, last_name, position } = req.body;
+    if (!club_id || !email || !first_name || !last_name || !position) {
+        return res.status(400).json({ error: 'Club ID, email, first name, last name, and position are required' });
+    }
+    try {
+        const { data, error } = await supabase
+            .from('club_officers')
+            .insert([{ club_id, email, first_name, last_name, position }]);
+        if (error) {
+            console.error('Error message:', error.message);
+            return res.status(500).json({ error: 'Error inserting officer' });
+        }
+        console.log('Inserted data:', data);
+        res.status(200).json({ message: 'Officer added successfully', data });
+    } catch (error) {
+        console.error('Unexpected error:', error.message);
+        res.status(500).json({ error: 'Unexpected error occurred' });
+    }
+});
+
+// Set Club Status
+// PARAMS: club_id, status
+router.post('/setClubStatus', async (req, res) => {
+    const { club_id, status } = req.body;
+    if (!club_id || !status) {
+        return res.status(400).json({ error: 'Club ID and status are required' });
+    }
+    try {
+        const { data, error } = await supabase
+            .from('club')
+            .update({ status })
+            .eq('id', club_id);
+        if (error) {
+            console.error('Error message:', error.message);
+            return res.status(500).json({ error: 'Error updating club status' });
+        }
+        console.log('Updated data:', data);
+        res.status(200).json({ message: 'Club status updated successfully', data });
+    } catch (error) {
+        console.error('Unexpected error:', error.message);
+        res.status(500).json({ error: 'Unexpected error occurred' });
+    }
+});
+
 // Used to Delete a club
 router.delete('/delete', async (req, res) => {
     const { name } = req.body;
