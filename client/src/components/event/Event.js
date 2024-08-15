@@ -45,7 +45,7 @@ function Event() {
         });
         setPosts(sorted);
     }
-
+    
     if (posts.length === 0) {
         return (
             <div role="status" className="flex items-center justify-center h-screen">
@@ -70,28 +70,30 @@ function Event() {
                 </div>
             ) : (
                 posts.map(post => (
-                    <div key={post.id} className="flex 2xl:flex-row flex-col border-secondary py-5 justify-center xl:items-center ">
-                        <div className="flex flex-row gap-2 py-2 2xl:hidden xl:w-[36rem]">
-                            <NavLink to={`/organization/${club[post.club_id]}`}>
-                                <img className="w-10 h-10 rounded-full bg-gray-800" src={post.club_avatar} alt="Club avatar" />
-                            </NavLink>
-                            <NavLink to={`/organization/${club[post.club_id]}`}>
-                                <h1 className="font-encode-sans text-2xl font-semibold">{club[post.club_id]}</h1>
-                            </NavLink>
-                        </div>
-                        <div className="flex flex-col items-center justify-center sm:pt-0 sm:space-y-0 space-y-4">
-                            <div className="xl:w-[36rem] xl:h-[34rem] overflow-hidden">
-                                {post.image_url ? (
-                                    <img src={post.image_url} alt="Event" className="w-full h-full object-cover border border-secondary rounded-lg" />
-                                ) : (
-                                    <p className="text-white">No image available</p>
-                                )}
+                    <div key={post.id} className="flex 2xl:flex-row flex-col border-secondary py-5">
+                        < div className="flex flex-col justify-center items-center">
+                            <div className="flex flex-row gap-2 py-2 2xl:hidden xl:w-[36rem]">
+                                <NavLink to={`/organization/${club[post.club_id]}`}>
+                                    <img className="w-10 h-10 rounded-full bg-gray-800" src={post.club_avatar} alt="Club avatar" />
+                                </NavLink>
+                                <NavLink to={`/organization/${club[post.club_id]}`}>
+                                    <h1 className="font-encode-sans text-2xl font-semibold">{club[post.club_id]}</h1>
+                                </NavLink>
+                            </div>
+                            <div className="flex flex-col items-center justify-center sm:pt-0 sm:space-y-0 space-y-4">
+                                <div className="xl:w-[36rem] xl:h-[34rem] overflow-hidden">
+                                    {post.image_url ? (
+                                        <img src={post.image_url} alt="Event" className="w-full h-full object-cover border border-secondary rounded-lg" />
+                                    ) : (
+                                        <p className="text-white">No image available</p>
+                                    )}
+                                </div>
                             </div>
                         </div>
                         <div className="flex flex-col justify-between 2xl:ml-12 sm:pt-0 2xl:space-y-0 space-y-4">
                             <div className="items-center flex flex-col">
                                 <div className="flex flex-col space-y-4">
-                                    <div className="flex-row items-center gap-2 border-b py-2 border-secondary 2xl:block hidden ">
+                                    <div className="flex-row items-center gap-2 border-b py-2 border-secondary 2xl:flex hidden  ">
                                         <NavLink to={`/organization/${club[post.club_id]}`}>
                                             <img className="w-10 h-10 rounded-full bg-gray-800" src={post.club_avatar} alt="Club avatar" />
                                         </NavLink>
@@ -130,8 +132,9 @@ function Event() {
                         </div>
                     </div>
                 ))
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }
 

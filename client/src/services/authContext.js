@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         // Check if the user is already logged in
         const token = localStorage.getItem('authToken');
-        const storedUser = localStorage.getItem('user');
+        const storedUser = sessionStorage.getItem('user');
 
         // Checks if the token and user are stored in the local storage
         if (token && storedUser) {
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         localStorage.removeItem('authToken'); // delete the token
-        localStorage.removeItem('user');
+        sessionStorage.removeItem('user');
         setUser(null); // Set the user to null
         setIsAuthenticated(false);
         console.log('User logged out');

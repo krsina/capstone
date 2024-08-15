@@ -26,46 +26,68 @@ export function useRegisterClub() {
     return { registerClub, response, error, loading };
 }
 
-
-
-// Custom hook for fetching specifically a club
+// Custom hook for fetching clubs and storing seen clubs in session storage
 function useClubServices(clubName = null, page = 1, limit = 8) {
     const [clubs, setClubs] = useState([]); // Initialize clubs as an empty array (this is for all clubs)
     const [club, setClub] = useState(null); // Initialize club as null (this is for a single club)
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
     useEffect(() => {
-        if (clubName) {
-            axios.get(`${API_URL}/getClubByName/${encodeURIComponent(clubName)}`)
-                .then(response => {
+        const fetchClubs = async () => {
+            setLoading(true);
+            try {
+                const offset = (page - 1) * limit;
+                const response = await axios.get(`${API_URL}/getClubs?offset=${offset}&limit=${limit}`);
+                setClubs(response.data);
+            } catch (error) {
+                setError(error);
+                console.error('Error fetching clubs:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        const fetchClubByName = async () => {
+            setLoading(true);
+            try {
+                const seenClubs = JSON.parse(sessionStorage.getItem('seenClubs')) || {}; // Get seen clubs from session storage
+                if (seenClubs[clubName]) {
+                    setClub(seenClubs[clubName]); // If the club is already seen, set the club to the seen club
+                    return; // Return to prevent the API call
+                } else {
+                    const response = await axios.get(`${API_URL}/getClubByName/${encodeURIComponent(clubName)}`);
                     if (response.data.length === 0) {
                         setClub(null);
-                        return;
+                    } else {
+                        setClub(response.data[0]);
+                        seenClubs[clubName] = response.data[0];
+                        sessionStorage.setItem('seenClubs', JSON.stringify(seenClubs));
                     }
-                    setClub(response.data[0]);
-                })
-                .catch(error => {
-                    console.error('Error fetching club:', error);
-                })
+                }
+            } catch (error) {
+                setError(error);
+                console.error('Error fetching club:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
+        if (clubName) {
+            fetchClubByName();
         } else {
-            const offset = (page - 1) * limit;
-            axios.get(`${API_URL}/getClubs?offset=${offset}&limit=${limit}`) // API endpoint for getting all clubs, with pagination
-                .then(response => {
-                    setClubs(response.data);
-                })
-                .catch(error => {
-                    console.error('Error fetching clubs:', error);
-                });
+            fetchClubs();
         }
     }, [clubName, page, limit]);
 
-    return clubName ? { club } : { clubs };
+    return { club, clubs, loading, error };
 }
 
 // This function is used to return all clubs without any pagniation, used for drop down menus for finding clubs
 export function useAllClubs() {
     const [clubs, setClubs] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:3001/club/getAllClubs') // API endpoint for getting all clubs
+        axios.get(`${API_URL}/getAllClubs`) // API endpoint for getting all clubs
             .then(response => {
                 setClubs(response.data);
             })

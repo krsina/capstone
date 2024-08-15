@@ -1,10 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const supabase = require('../supabaseClient');
-
+const supabase = require('../../supabaseClient');
 
 // Return all categories for clubs used for the dropdown menu in the create club form
 router.get('/getCategories', async (req, res) => {
+    const { club_id } = req.query; // Get club_id from query parameters
+    // This returns the categories for a specific club if club_id is provided
+    if (club_id) {
+        const { data, error } = await supabase
+            .from('club_category')
+            .select('category_id, category:category_id (id, name)')
+            .eq('club_id', club_id)
+            .single();
+
+        if (error) {
+            console.error('Error message:', error.message);
+            return res.status(500).send('Error fetching categories');
+        }
+        return res.json(data);
+    }
+
     const { data, error } = await supabase
         .from('club_category')
         .select('*')
@@ -174,8 +189,31 @@ router.get('/getClubByName/:name', async (req, res) => {
     }
     const { data, error } = await supabase
         .from('club')
-        .select('*')
-        .eq('name', name);
+        .select(
+            `
+            id,
+            name,
+            description,
+            mission,
+            meeting_days,
+            meeting_times,
+            meeting_location,
+            club_category(
+                id,
+                category_name
+            ),
+            advisors (
+                first_name,
+                last_name,
+                email
+            ),
+            affiliation (
+                affiliation_name,
+                affiliation_url
+            )
+            `
+        )
+        .eq('name', name,);
     if (error) {
         console.error('Error message:', error.message);
         return res.status(500).send('Error fetching club');

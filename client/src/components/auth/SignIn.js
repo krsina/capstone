@@ -30,7 +30,7 @@ export default function SignIn() {
             // Set user authentication state
             setIsAuthenticated(true);
             setUser(data.user);
-
+            console.log("Uses logged in: ");
             // Successful sign-in, navigate to /events
             navigate('/events');
         } else {

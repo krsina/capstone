@@ -23,7 +23,7 @@ export const signIn = async (email, password) => {
         const response = await axios.post(`${API_URL}/signin`, { email, password });
         if (response.data.session) {
             localStorage.setItem('authToken', response.data.session.access_token);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
+            sessionStorage.setItem('user', JSON.stringify(response.data.user));
         }
         return response.data;
     } catch (error) {
@@ -35,14 +35,14 @@ export const signIn = async (email, password) => {
 
 export const fetchUserDetails = async () => {
     try {
-        const storedUser = localStorage.getItem('user');
+        const storedUser = sessionStorage.getItem('user');
         if (!storedUser) {
             throw new Error('User not found in local storage');
         }
 
         const user = JSON.parse(storedUser);
         const userId = user.id;
-        
+
         const response = await axios.get(`${API_URL}/user`, {
             params: { userId }
         });

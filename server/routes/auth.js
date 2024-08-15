@@ -19,13 +19,18 @@ router.post('/signup', async (req, res) => {
     const userId = data.user.id;
 
     try {
-        console.log("User ID: ", userId);
-        console.log("Trying to insert user details into the users")
         // Once the user is signed up, insert the user details into the users table
         const { data: user, error: userError } = await supabase
             // Select from Users table
             .from('users')
-            .insert([{ id: userId, firstname: firstName, lastname: lastName, role: 1 }]); // predefine the role as 1 for Student
+            .insert([{
+                id: userId,
+                firstname: firstName,
+                lastname: lastName,
+                role: 1, // predefined role as 1 for Student
+                email: email,
+                student_number: studentNumber,
+            }]);
 
         if (userError) {
             return res.status(400).json({ error: userError.message });
@@ -59,7 +64,6 @@ router.get('/user', async (req, res) => {
     try {
         // Assume the user ID is sent as a query parameter
         const { userId } = req.query
-
         // Fetch user details from the users table
         const { data: user, error } = await supabase
             .from('users')
@@ -69,14 +73,16 @@ router.get('/user', async (req, res) => {
         if (error) {
             return res.status(400).json({ error: error.message })
         }
-
-        console.log("User Details: ", user);
         res.json(user)
     } catch (err) {
         console.error(err)
         res.status(500).json({ message: 'Internal server error' })
     }
 })
+
+
+
+
 
 
 module.exports = router;
