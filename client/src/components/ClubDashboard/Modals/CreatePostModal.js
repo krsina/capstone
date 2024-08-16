@@ -1,14 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FieldCounter from "../../common/FieldCounter";
 import { v4 as uuidv4 } from "uuid";
 import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useAllClubs } from '../../../services/ClubFunctions/clubServices'
-
+import { fetchUserClubs } from "../../../services/ClubFunctions/clubMemberServices";
 
 function CreatePostModal({ isOpen, closeModal }) {
-    const { clubs } = useAllClubs()
+    const [userClubs, setUserClubs] = useState([]);
+
+    // Fetch the user's membership details
+    const userId = JSON.parse(sessionStorage.getItem('userDetails')).id;
+
+    // Fetch the users membership details
+    useEffect(() => {
+        fetchUserClubs(userId).then((data) => {
+            // Filter clubs where the user's role is not 'Member'
+            const filteredClubs = data.filter(clubObj => clubObj.role.name !== 'Member');
+            setUserClubs(filteredClubs);
+        }).catch((error) => console.error('Error fetching user clubs:', error));
+    }, [userId]);
 
     const [image, setImage] = useState(null)
     const [error, setError] = useState("")
@@ -154,16 +165,19 @@ function CreatePostModal({ isOpen, closeModal }) {
                         Select club to post to
                     </h1>
                     <select
-                        name="category_id"
-                        value={selectedClub}
-                        onChange={(e) => setSelectedClub(e.target.value)}
+                        name="club_id"
+                        value={selectedClub} // Bind to selectedClub state
+                        onChange={(e) => setSelectedClub(e.target.value)} // Update selectedClub state on change
                         className="items-center justify-center w-full py-2 mb-4"
                     >
                         <option value="">Select Club</option>
-                        {clubs.map(cat => (
-                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                        {userClubs.map(clubObj => (
+                            <option key={clubObj.club.id} value={clubObj.club.id}>
+                                {clubObj.club.name}
+                            </option>
                         ))}
                     </select>
+
 
                     <div className="relative bg-gray-100 border border-dashed border-gray-300 rounded-lg h-60 flex items-center justify-center hover:border-secondary hover:scale-105 duration-500 transition ease-in-out">
                         {image ? (

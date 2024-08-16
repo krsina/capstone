@@ -51,32 +51,32 @@ export default function ClubDashboard() {
                 <div className="grid grid-cols-2 grid-rows-2 gap-8 h-full">
                     <div className="flex flex-col items-center border border-secondary rounded-lg p-2 font-open-sans">
                         <h1 className="text-lg font-light">Total Members</h1>
-                        <p className="text-5xl pt-12 font-semibold">55</p>
+                        <p className="text-5xl pt-2 font-semibold">3</p>
                     </div>
                     <div className="flex flex-col items-center border border-secondary rounded-lg p-2 font-open-sans">
                         <h1 className="text-lg font-light">General Meetings</h1>
-                        <p className="text-5xl pt-12 font-semibold">1</p>
+                        <p className="text-5xl pt-2 font-semibold">1</p>
                     </div>
 
                     <div className="flex flex-col items-center border border-secondary rounded-lg p-2 font-open-sans">
                         <h1 className="text-lg font-light">Total Event Attendees</h1>
-                        <p className="text-5xl pt-12 font-semibold">450</p>
+                        <p className="text-5xl pt-2 font-semibold">450</p>
                     </div>
 
                     <div className="flex flex-col items-center border border-secondary rounded-lg p-2 font-open-sans">
                         <h1 className="text-lg font-light">Events This Year</h1>
-                        <p className="text-5xl pt-12 font-semibold">4</p>
+                        <p className="text-5xl pt-2 font-semibold">4</p>
                     </div>
                 </div>
             </div>
-            <div className="space-y-6 flex flex-col justify-between h-full sm:pt-[3.25rem] pb-12">
+            <div className="space-y-6 flex flex-col justify-between h-full sm:pt-[3.25rem] ">
                 <div className="flex flex-col items-center border border-secondary rounded-lg p-2 font-open-sans flex-grow">
                     <h1 className="text-lg font-light">Club Event Analytics</h1>
-                    <p className="text-5xl pt-20 font-semibold">Events</p>
+                    <p className="text-5xl pt-4 font-semibold">Events</p>
                 </div>
                 <div className="flex flex-col items-center border border-secondary rounded-lg p-2 font-open-sans flex-grow">
                     <h1 className="text-lg font-light">Upcoming Events</h1>
-                    <p className="text-3xl  text-center font-light">09/24/24 | General Meeting | 5:45 pm - 7:45 pm | <span className="font-semibold">Disc 121 </span></p>
+                    <p className="text-xl  text-center font-light">09/24/24 | General Meeting | 5:45 pm - 7:45 pm | <span className="font-semibold">Disc 121 </span></p>
                 </div>
             </div>
         </div >

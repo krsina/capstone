@@ -48,7 +48,7 @@ function Profile() {
         }
     }, [userName]);
 
-    // Fetch the ussers membership details
+    // Fetch the users membership details
     useEffect(() => {
         const storedUserClubs = sessionStorage.getItem('userClubs');
         if (storedUserClubs) {
@@ -97,7 +97,7 @@ function Profile() {
             <div className="text-center font-encode-sans">
                 <h1 className="text-4xl ">👋 Hello {userDetails.firstname} {userDetails.lastname}!</h1>
             </div>
-            <div className="flex sm:flex-row flex-col sm:space-x-24 px-24 pt-12 sm:space-y-0 space-y-12 font-open-sans">
+            <div className="flex sm:flex-row flex-col sm:space-x-24 pt-12 sm:space-y-0 space-y-12 font-open-sans ml-24">
                 <div className="flex flex-col  bg-white sm:w-1/2 rounded-lg p-6">
                     <div className="flex flex-row justify-between">
                         <div className="space-y-4">
@@ -134,7 +134,7 @@ function Profile() {
                     />
                 </div>
 
-                <section className="flex flex-col bg-white sm:w-1/3  rounded-lg">
+                <section className="flex flex-col bg-white sm:w-1/3 w-full rounded-lg">
                     <div className="w-full bg-secondary text-white rounded-t-lg p-3 text-center">
                         <h1 className="text-2xl font-encode-sans">Club Membership</h1>
                     </div>

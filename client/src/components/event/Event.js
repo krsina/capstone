@@ -93,7 +93,7 @@ function Event() {
                         <div className="flex flex-col justify-between 2xl:ml-12 sm:pt-0 2xl:space-y-0 space-y-4">
                             <div className="items-center flex flex-col">
                                 <div className="flex flex-col space-y-4">
-                                    <div className="flex-row items-center gap-2 border-b py-2 border-secondary 2xl:flex hidden  ">
+                                    <div className="flex-row items-center justify-center gap-2 border-b py-2 border-secondary 2xl:flex hidden  ">
                                         <NavLink to={`/organization/${club[post.club_id]}`}>
                                             <img className="w-10 h-10 rounded-full bg-gray-800" src={post.club_avatar} alt="Club avatar" />
                                         </NavLink>
