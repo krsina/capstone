@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import useClubServices from '../../services/clubServices';
+import useClubServices from '../../services/ClubFunctions/clubServices';
 
 export default function Organizations() {
     const [page, setPage] = useState(1);

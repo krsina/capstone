@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FieldCounter from '../../common/FieldCounter';
 import BackButton from '../../common/BackButton';
 // import OfficerField from '../../common/OfficerField';
-import { useCategories, useRegisterClub } from '../../../services/clubServices';
+import { useCategories, useRegisterClub } from '../../../services/ClubFunctions/clubServices';
 
 
 function ClubRegistration() {

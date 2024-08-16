@@ -160,6 +160,7 @@ router.get('/getClubs', async (req, res) => {
     const { data, error } = await supabase
         .from('club')
         .select('*')
+        .eq('status', 'active') // Only return active clubs
         .range(offset, offset + limit - 1); // Supabase uses a range method for pagination
 
     if (error) {

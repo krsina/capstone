@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import FieldCounter from '../../common/FieldCounter';
 import BackButton from '../../common/BackButton';
 import OfficerField from '../../common/OfficerField';
 

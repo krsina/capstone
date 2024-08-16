@@ -36,3 +36,23 @@ export const fetchUserClubs = async (user_id) => {
         return error.response ? error.response.data : { error: 'Fetching clubs failed' };
     }
 }
+
+// Lets the user set their preferred club
+export const setPreferedClub = async (club_id, user_id) => {
+    try {
+        const response = await axios.post(`${API_URL}/setPreferredClub`, { club_id, user_id });
+        return response.data;
+    } catch (error) {
+        return error.response ? error.response.data : { error: 'Setting preferred club failed' };
+    }
+}
+
+// Returns the users preferred club
+export const getPreferredClub = async (user_id) => {
+    try {
+        const response = await axios.get(`${API_URL}/getPreferredClub`, { params: { user_id } });
+        return response.data;
+    } catch (error) {
+        return error.response ? error.response.data : { error: 'Fetching preferred club failed' };
+    }
+}

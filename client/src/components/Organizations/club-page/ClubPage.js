@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import BackButton from '../../common/BackButton';
-import useClubServices from '../../../services/clubServices';
+import useClubServices from '../../../services/ClubFunctions/clubServices';
 import { useParams } from 'react-router-dom';
-import { joinClub, leaveClub, fetchUserClubs } from '../../../services/clubMemberServices';
+import { joinClub, leaveClub, fetchUserClubs } from '../../../services/ClubFunctions/clubMemberServices';
 import { useAuth } from '../../../services/authContext';
-import { fetchClubMembers, fetchClubOfficerCount, fetchClubMemberCount } from '../../../services/clubInfo';
+import { fetchClubMembers, fetchClubOfficerCount, fetchClubMemberCount } from '../../../services/ClubFunctions/clubInfo';
 
 function ClubPage() {
     const { clubName } = useParams();
@@ -23,19 +23,25 @@ function ClubPage() {
     useEffect(() => {
         const checkMembership = async () => {
             const storedUserClubs = sessionStorage.getItem('userClubs');
+
             if (storedUserClubs) {
                 const userClubs = JSON.parse(storedUserClubs);
-                const isMember = userClubs.some(userClub => userClub.id === club.id);
+                // Adjusted to access the club id inside the nested club object
+                const isMember = userClubs.some(userClub => userClub.club.id === club.id);
                 setIsMember(isMember);
             } else if (user) {
                 const userClubs = await fetchUserClubs(user.id);
+                console.log('Fetched User Clubs:', userClubs); // Check fetched user clubs
                 sessionStorage.setItem('userClubs', JSON.stringify(userClubs));
-                const isMember = userClubs.some(userClub => userClub.id === club.id);
+
+                // Adjusted to access the club id inside the nested club object
+                const isMember = userClubs.some(userClub => userClub.club.id === club.id);
+                console.log('Is Member:', isMember); // Check again after fetching
                 setIsMember(isMember);
             }
         };
 
-        if (user && club) {
+        if (user && club && club.id) {
             checkMembership();
         }
     }, [user, club]);
@@ -55,7 +61,7 @@ function ClubPage() {
         };
 
         getClubCounts();
-    }, [club]);
+    }, [club, isMember]);
 
     // Function to join a club
     const handleJoinClub = async () => {
@@ -81,12 +87,12 @@ function ClubPage() {
     // Function to leave a club
     const handleLeaveClub = async () => {
         setIsButtonDisabled(true);
-        const userClub = sessionStorage.getItem('userClubs');
+        const storedUserClubs = sessionStorage.getItem('userClubs');
 
-        // Check if the user is an officer or admin of the club, this means 
-        if (userClub) {
-            const userClubs = JSON.parse(userClub);
-            const userClubData = userClubs.find(userClub => userClub.id === club.id);
+        if (storedUserClubs) {
+            const userClubs = JSON.parse(storedUserClubs);
+            const userClubData = userClubs.find(userClub => userClub.club.id === club.id);
+
             if (userClubData && userClubData.role.name !== 'Member') {
                 setActionStatus({ success: false, message: `You cannot leave the club as a ${userClubData.role.name}.` });
                 setIsButtonDisabled(false); // Re-enable button
@@ -94,51 +100,55 @@ function ClubPage() {
             }
         }
 
-        // If the user isn't an officer, user can leave the club
+        // If the user isn't an officer, they can leave the club
         try {
             const result = await leaveClub(club.id, user.id);
-            console.log(club.id, user.id); // Log the club id and user id
-            console.log('API result:', result); // Log the result of the API call
-            if (result.success === true) {
+            if (result.success) {
                 setIsMember(false);
                 setActionStatus({ success: true, message: 'Successfully left the club!' });
                 updateUserClubsSessionStorage(club, false);
             } else {
                 setActionStatus({ success: false, message: result.error });
             }
-        }
-        catch (error) {
-            setActionStatus({ success: false, message: 'Leaving club failed' })
+        } catch (error) {
+            setActionStatus({ success: false, message: 'Leaving club failed' });
         } finally {
-            // Set a timer to reduce the abue of the API
-            setTimeout(() => setIsButtonDisabled(true), 60000); // 60 second delay
+            setTimeout(() => setIsButtonDisabled(false), 60000); // 60-second delay
             setActionStatus({ success: false, message: "Please wait 60 seconds" });
         }
     };
 
-
-    const updateUserClubsSessionStorage = (club, isJoining) => {
+    // Update the user clubs in session storage when joining or leaving a club
+    const updateUserClubsSessionStorage = (club, isJoining, roleName = 'Member') => {
         const storedUserClubs = sessionStorage.getItem('userClubs');
         let userClubs = storedUserClubs ? JSON.parse(storedUserClubs) : [];
 
-        console.log('Before update:', userClubs); // Log before update
-
         if (isJoining) {
-            userClubs.push(club);
-            console.log(`Joining club: ${club.name}`);
-        } else {
-            const index = userClubs.findIndex(userClub => userClub.id === club.id);
-            if (index !== -1) {
-                userClubs.splice(index, 1);
-                console.log(`Leaving club: ${club.name}`);
-            } else {
-                console.error(`Club with id ${club.id} not found in user clubs.`);
+            // Check if the club is already in the array
+            const clubExists = userClubs.some(userClub => userClub.club.id === club.id);
+            if (!clubExists) {
+                // Add the new club with the role
+                userClubs.push({
+                    club: {
+                        id: club.id,
+                        name: club.name,
+                    },
+                    role: {
+                        name: roleName,
+                    },
+                });
+                console.log(`Added club: ${club.name}`);
             }
+        } else {
+            // Remove the club from the array if the user is leaving
+            userClubs = userClubs.filter(userClub => userClub.club.id !== club.id);
+            console.log(`Removed club: ${club.name}`);
         }
 
+        // Update the session storage with the new array
         sessionStorage.setItem('userClubs', JSON.stringify(userClubs));
-        console.log('After update:', JSON.parse(sessionStorage.getItem('userClubs'))); // Log after update
     };
+
     // Fetches all the clubs members and their roles
     useEffect(() => {
         if (activeTab === 'members' && club) {
@@ -159,10 +169,7 @@ function ClubPage() {
             };
             getClubMembers();
         }
-    }, [activeTab, club]);
-
-
-
+    }, [activeTab, club, isMember]);
 
     // Use effect for action status (sets time limit for the message to disappear)
     useEffect(() => {

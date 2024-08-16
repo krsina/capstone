@@ -3,7 +3,7 @@ import { fetchUserDetails } from '../../services/authServices';
 import { useParams } from 'react-router-dom';
 import BackButton from '../common/BackButton'
 import EditProfile from './Modals/editProfile';
-import { fetchUserClubs } from '../../services/clubMemberServices';
+import { fetchUserClubs } from '../../services/ClubFunctions/clubMemberServices';
 import { NavLink } from 'react-router-dom';
 
 function Profile() {
@@ -11,8 +11,7 @@ function Profile() {
     const { userName } = useParams(); // Gets the username from the URL
     const [isModalOpen, setIsModalOpen] = useState(false); // Used to open and close the modal
     const [userClubs, setUserClubs] = useState([]);
-
-
+    
     const handleOpenModal = () => {
         setIsModalOpen(true); // Opens the modal that's passed in
     }
@@ -55,6 +54,7 @@ function Profile() {
         }
     }, [userName]);
 
+
     // If the user details are not fetched yet, show a loading spinner
     if (!userDetails) {
         return <div role="status" className="flex items-center justify-center h-screen">
@@ -80,6 +80,7 @@ function Profile() {
                         <div className="space-y-4">
                             <img className="w-36 h-36 rounded-full bg-gray-300" src={userDetails.user_image} alt="User Avatar" />
                             <h1 className="text-2xl"> {userDetails.firstname} {userDetails.lastname}</h1>
+
                         </div>
                         <button
                             className="rounded-lg bg-secondary text-white px-2 py-1 w-36 h-12"
@@ -95,11 +96,11 @@ function Profile() {
                     <div className="p-4">
                         {
                             userClubs ? (
-                                userClubs.map((club) => {
+                                userClubs.map((club, index) => {
                                     return (
-                                        <div key={club.id} className="flex flex-row justify-between items-center  border-gray-200 p-2">
-                                            <NavLink to={`/organization/${club.name}`}>
-                                                <h1 className="text-xl hover:text-primary">{club.name}</h1>
+                                        <div key={club.id || index} className="flex flex-row justify-between items-center  border-gray-200 p-2">
+                                            <NavLink to={`/organization/${club.club.name}`}>
+                                                <h1 className="text-xl hover:text-primary">{club.club.name}</h1>
                                             </NavLink>
                                             <div className="flex flex-row items-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-secondary" viewBox="0 0 20 20" fill="currentColor">

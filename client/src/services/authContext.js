@@ -26,6 +26,8 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         localStorage.removeItem('authToken'); // delete the token
         sessionStorage.removeItem('user');
+        sessionStorage.removeItem('userDetails')
+        sessionStorage.removeItem('userClubs')
         setUser(null); // Set the user to null
         setIsAuthenticated(false);
         console.log('User logged out');

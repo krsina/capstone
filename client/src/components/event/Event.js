@@ -45,7 +45,7 @@ function Event() {
         });
         setPosts(sorted);
     }
-    
+
     if (posts.length === 0) {
         return (
             <div role="status" className="flex items-center justify-center h-screen">
@@ -71,7 +71,7 @@ function Event() {
             ) : (
                 posts.map(post => (
                     <div key={post.id} className="flex 2xl:flex-row flex-col border-secondary py-5">
-                        < div className="flex flex-col justify-center items-center">
+                        < div className="flex flex-col justify-center">
                             <div className="flex flex-row gap-2 py-2 2xl:hidden xl:w-[36rem]">
                                 <NavLink to={`/organization/${club[post.club_id]}`}>
                                     <img className="w-10 h-10 rounded-full bg-gray-800" src={post.club_avatar} alt="Club avatar" />

@@ -23,52 +23,24 @@ router.post('/join', async (req, res) => {
 // Returns the users clubs that they are a member of
 router.get('/getUserClubs', async (req, res) => {
     const { user_id } = req.query;
-
-    if (!user_id) {
-        return res.status(400).json({ error: 'User ID is required' });
-    }
-
     try {
-        // Fetch the club memberships along with the role information
-        const { data: memberships, error: membershipError } = await supabase
+        const { data, error } = await supabase
             .from('club_membership')
             .select(`
-                club_id,
+                club:club_id (
+                    id,
+                    name
+                ),
                 role:role_id (name)
             `)
             .eq('user_id', user_id);
 
-        if (membershipError) throw membershipError;
+        if (error) throw error;
 
-        if (memberships.length === 0) {
-            return res.json([]); // If the user is not a member of any clubs, return an empty array
-        }
-
-        // Extract the club IDs from the memberships
-        const clubIds = memberships.map((membership) => membership.club_id);
-
-        // Fetch the club details using the extracted club IDs
-        const { data: clubs, error: clubError } = await supabase
-            .from('club')
-            .select('id, name')
-            .in('id', clubIds);
-
-        if (clubError) throw clubError;
-
-        // Combine the club details with the role information
-        const result = clubs.map((club) => {
-            const membership = memberships.find((m) => m.club_id === club.id);
-            return {
-                id: club.id,
-                name: club.name,
-                role: membership.role
-            };
-        });
-
-        res.json(result); // Returns the combined club details with roles
+        res.json(data);
     } catch (error) {
-        console.error('Error getting clubs:', error.message);
-        res.status(500).send('Error getting clubs');
+        console.error('Error fetching user clubs:', error.message);
+        res.status(500).send('Error fetching user clubs');
     }
 });
 
@@ -109,7 +81,43 @@ router.get('/role', async (req, res) => {
     }
 })
 
+// Allows the user to set their preferred club
+router.post('/setPreferredClub', async (req, res) => {
+    const { user_id, club_id } = req.body;
+    try {
+        const { data, error } = await supabase
+            .from('club_preference')
+            .upsert({ user_id, club_id }, { onConflict: ['user_id'] })
+            .select();
+        if (error) throw error;
+        res.json(data);
+    } catch (error) {
+        console.error('Error setting preferred club:', error.message);
+        res.status(500).send('Error setting preferred club');
+    }
+})
 
-router.up
+//Allows the user to get their preferred club
+router.get('/getPreferredClub', async (req, res) => {
+    const { user_id } = req.query;
+    try {
+        const { data, error } = await supabase
+            .from('club_preference')
+            .select(
+                `club:club_id (
+                    id,
+                    name
+                )`
+            )
+            .single()
+            .eq('user_id', user_id) // Fetch the name of the club
+            .single();
+        if (error) throw error;
+        res.json(data);
+    } catch (error) {
+        console.error('Error getting preferred club:', error.message);
+        res.status(500).send('Error getting preferred club');
+    }
+})
 
 module.exports = router;

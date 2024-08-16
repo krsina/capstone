@@ -40,6 +40,10 @@ export default function SignIn() {
         }
     };
 
+    // Use Efect to check if user is already authenticated
+    /* useEffect(() => {
+    }, [setUser]);
+*/
     return (
         <div className="min h-screen flex">
             {/* Sign In Form Left Side */}
